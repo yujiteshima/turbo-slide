@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Turbo Slide Test</title>
+  <script type="module" src="https://unpkg.com/@hotwired/turbo@8.0.4/dist/turbo.es2017-umd.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .test-section {
+      border: 2px solid #333;
+      padding: 20px;
+      margin: 20px 0;
+      background: #f5f5f5;
+    }
+    .status {
+      padding: 10px;
+      margin: 10px 0;
+      background: #fff;
+      border-left: 4px solid #007bff;
+    }
+    .error { border-left-color: #dc3545; }
+    .success { border-left-color: #28a745; }
+    turbo-frame {
+      display: block;
+      border: 2px dashed #007bff;
+      padding: 10px;
+      min-height: 100px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Turbo Frame Navigation Test</h1>
+
+  <div class="test-section">
+    <h2>Test 1: Basic Turbo Frame</h2>
+    <p class="status">Current slide should be displayed in the frame below:</p>
+
+    <turbo-frame id="test-slide-content">
+      <div>Loading slide 1...</div>
+    </turbo-frame>
+
+    <div style="margin-top: 20px;">
+      <a href="/slide/1" class="btn" data-turbo-frame="test-slide-content">Load Slide 1</a>
+      <a href="/slide/2" class="btn" data-turbo-frame="test-slide-content">Load Slide 2</a>
+      <a href="/slide/3" class="btn" data-turbo-frame="test-slide-content">Load Slide 3</a>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 2: Frame Response Check</h2>
+    <p class="status">Testing if server returns proper Turbo Frame response:</p>
+    <pre id="response-test">Waiting for test...</pre>
+    <button onclick="testFrameResponse()">Run Test</button>
+  </div>
+
+  <script>
+    // Monitor Turbo Frame updates
+    document.addEventListener('turbo:before-frame-render', (event) => {
+      console.log('Turbo Frame will render:', event.detail);
+      const status = document.createElement('div');
+      status.className = 'status success';
+      status.textContent = `✓ Frame "${event.target.id}" is updating at ${new Date().toLocaleTimeString()}`;
+      event.target.parentElement.insertBefore(status, event.target);
+    });
+
+    document.addEventListener('turbo:frame-render', (event) => {
+      console.log('Turbo Frame rendered:', event.detail);
+    });
+
+    document.addEventListener('turbo:frame-missing', (event) => {
+      console.error('Turbo Frame missing:', event.detail);
+      const status = document.createElement('div');
+      status.className = 'status error';
+      status.textContent = `✗ Frame missing error at ${new Date().toLocaleTimeString()}`;
+      document.body.insertBefore(status, document.body.firstChild);
+    });
+
+    async function testFrameResponse() {
+      const output = document.getElementById('response-test');
+      output.textContent = 'Testing...';
+
+      try {
+        // Test normal request
+        const normalResp = await fetch('/slide/2');
+        const normalHtml = await normalResp.text();
+
+        // Test Turbo Frame request
+        const frameResp = await fetch('/slide/2', {
+          headers: { 'turbo-frame': 'slide-content' }
+        });
+        const frameHtml = await frameResp.text();
+
+        output.textContent = `Normal request (${normalHtml.length} chars):\n${normalHtml.substring(0, 200)}...\n\n` +
+                           `Frame request (${frameHtml.length} chars):\n${frameHtml}`;
+      } catch (error) {
+        output.textContent = 'Error: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>

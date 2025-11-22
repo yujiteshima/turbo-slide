@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Turbo Slide Demo</title>
+  <script type="module" src="https://unpkg.com/@hotwired/turbo@8.0.4/dist/turbo.es2017-umd.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div>Hotwire LT Demo</div>
+    <div class="timer" id="timer">10:00</div>
+  </div>
+
+  <turbo-frame id="slide-content">
+    {{SLIDE_CONTENT}}
+    <div class="nav">
+      {{NAV_BUTTONS}}
+    </div>
+  </turbo-frame>
+
+  <div class="hint" style="text-align:center; margin-bottom:0.5rem;">
+    ← / → キーでも操作できます
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

@@ -63,6 +63,7 @@ body {
   align-items: center;
   text-align: center;
   padding: 2rem;
+  padding-bottom: 5rem;
   font-size: 1.5rem;
 }
 
@@ -79,10 +80,18 @@ h1 {
 }
 
 .nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   gap: 1rem;
-  padding: 0.75rem 0 1.5rem;
+  padding: 1rem;
+  background: rgba(24, 24, 24, 0.9);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid #333;
+  z-index: 10;
 }
 
 .btn {
@@ -109,6 +118,11 @@ h1 {
 }
 
 .hint {
+  position: fixed;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
   opacity: 0.7;
   font-size: 0.8rem;
+  z-index: 11;
 }

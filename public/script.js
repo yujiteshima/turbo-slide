@@ -34,3 +34,33 @@ document.addEventListener("keydown", function (e) {
     }
   }
 });
+
+// フルスクリーン切り替え
+(function setupFullscreen() {
+  const fullscreenBtn = document.getElementById("fullscreen-btn");
+  if (!fullscreenBtn) return;
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error("フルスクリーン化に失敗:", err);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // ボタンクリック時
+  fullscreenBtn.addEventListener("click", toggleFullscreen);
+
+  // フルスクリーン状態変化時にボタンの表示を更新
+  document.addEventListener("fullscreenchange", function () {
+    if (document.fullscreenElement) {
+      fullscreenBtn.textContent = "⛶";
+      fullscreenBtn.title = "フルスクリーン解除";
+    } else {
+      fullscreenBtn.textContent = "⛶";
+      fullscreenBtn.title = "フルスクリーン";
+    }
+  });
+})();

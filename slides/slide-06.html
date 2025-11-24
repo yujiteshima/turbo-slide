@@ -1,0 +1,114 @@
+<style>
+  .hotwire-overview h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .hotwire-overview .content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .hotwire-structure {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .hotwire-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #90e2dc;
+  }
+
+  .hotwire-box h2 {
+    font-size: 2rem;
+    color: #90e2dc;
+    margin-bottom: 1rem;
+  }
+
+  .hotwire-box h3 {
+    font-size: 1.5rem;
+    color: #12d6b0;
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  .hotwire-box p,
+  .hotwire-box ul {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+  }
+
+  .hotwire-box ul {
+    list-style: none;
+    padding-left: 1rem;
+  }
+
+  .hotwire-box li {
+    margin: 0.3rem 0;
+  }
+
+  .hotwire-box li::before {
+    content: "→ ";
+    color: #90e2dc;
+  }
+
+  .mechanism {
+    background: rgba(255, 164, 65, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #ffa441;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+
+  .mechanism strong {
+    color: #ffa441;
+  }
+</style>
+
+<div class="slide hotwire-overview">
+  <h1>Hotwireの技術概要</h1>
+
+  <div class="content">
+    <div class="hotwire-structure">
+      <div class="hotwire-box">
+        <h2>Turbo</h2>
+        <h3>Drive</h3>
+        <ul>
+          <li>body入れ替え、headの差分マージ</li>
+          <li>SWR型キャッシュ</li>
+        </ul>
+        <h3>Frames</h3>
+        <ul>
+          <li>部分変更</li>
+        </ul>
+        <h3>Streams</h3>
+        <ul>
+          <li>複数箇所の更新</li>
+        </ul>
+      </div>
+
+      <div class="hotwire-box">
+        <h2>Stimulus</h2>
+        <p>画面遷移・form送信以外のJSをいい感じに書く</p>
+        <ul>
+          <li>状態管理もできる</li>
+          <li>React的なこともできる</li>
+        </ul>
+        <br>
+        <h2>Native</h2>
+        <p>ネイティブアプリ対応</p>
+      </div>
+    </div>
+
+    <div class="mechanism">
+      <strong>仕組み:</strong> aタグ、link、formの通信をインターセプト → fetchでHTMLを取得 → 差し替え
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<style>
+  .first-step h1 {
+    font-size: 3.2rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #ffa441 0%, #ffeb0d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .first-step .content {
+    font-size: 1.7rem;
+    line-height: 1.9;
+    text-align: left;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .first-step .barriers {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid #ff6b6b;
+    margin: 1.5rem 0;
+  }
+
+  .first-step .barriers h2 {
+    font-size: 1.9rem;
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+  }
+
+  .first-step .barriers ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 1.5rem;
+  }
+
+  .first-step .barriers li {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .first-step .barriers li::before {
+    content: "😰 ";
+    position: absolute;
+    left: 0;
+  }
+
+  .first-step .decision {
+    background: rgba(18, 214, 176, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid #12d6b0;
+    margin: 1.5rem 0;
+  }
+
+  .first-step .decision h2 {
+    font-size: 1.9rem;
+    color: #12d6b0;
+    margin-bottom: 1rem;
+  }
+
+  .first-step .action {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .first-step .action-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.2rem;
+    border-radius: 8px;
+    border: 2px solid #90e2dc;
+  }
+
+  .first-step .action-box h3 {
+    font-size: 1.6rem;
+    color: #90e2dc;
+    margin-bottom: 0.8rem;
+  }
+
+  .first-step .action-box p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+
+  .first-step .helper {
+    font-size: 1.4rem;
+    color: #ffa441;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+</style>
+
+<div class="slide first-step">
+  <h1>一歩を踏み出す</h1>
+
+  <div class="content">
+    <div class="barriers">
+      <h2>今まで踏み出せなかった</h2>
+      <ul>
+        <li>contribute.md読むの大変そう</li>
+        <li>プロジェクトごとに流儀がありそう</li>
+        <li>海外の怖い人からまさかり投げられそう</li>
+      </ul>
+    </div>
+
+    <div class="decision">
+      <h2>でも今回は...</h2>
+      <p>HotwireでLTする！</p>
+      <p>頑張ったこと発表したい！</p>
+      <p style="font-size: 2rem; color: #12d6b0; font-weight: bold; margin-top: 1rem;">やってみることにした</p>
+    </div>
+
+    <div class="action">
+      <div class="action-box">
+        <h3>実際にやったこと</h3>
+        <p>最小構成でバグ再現</p>
+        <p>テスト書いて修正</p>
+        <p>プルリク作成！</p>
+      </div>
+
+      <div class="action-box">
+        <h3>英語のドキュメント</h3>
+        <p>AIに助けてもらった</p>
+        <p class="helper">堅苦しいけど、構造化されて見やすく！</p>
+      </div>
+    </div>
+  </div>
+</div>

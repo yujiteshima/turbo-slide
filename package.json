@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Turbo Frames-based slide deck with countdown timer and keyboard navigation for presentations.",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server.js"
   },

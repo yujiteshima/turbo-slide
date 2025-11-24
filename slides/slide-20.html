@@ -1,32 +1,98 @@
 <style>
-  .thank-you {
+  .meta h1 {
+    font-size: 2.4rem;
+    margin-bottom: 0.3rem;
+    color: #ffa441;
+  }
+
+  .meta .content {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    text-align: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .meta .reveal {
+    background: rgba(255, 164, 65, 0.15);
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    border: 2px solid #ffa441;
+    margin: 0.1rem 0;
+  }
+
+  .meta .reveal h2 {
+    font-size: 1.6rem;
+    color: #ffa441;
+    margin-bottom: 0.3rem;
+  }
+
+  .meta .reveal p {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    margin: 0.2rem 0;
+  }
+
+  .meta .images {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    height: 100%;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .thank-you h1 {
-    font-size: 5rem;
-    margin-bottom: 3rem;
-    background: linear-gradient(135deg, #ffa441 0%, #ffeb0d 50%, #12d6b0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .meta .image-section {
     text-align: center;
   }
 
-  .thank-you .author {
-    font-size: 2rem;
-    opacity: 0.8;
-    text-align: center;
+  .meta .image-section h3 {
+    font-size: 1.2rem;
+    color: #90e2dc;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+  }
+
+  .meta .code-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #90e2dc;
+    box-shadow: 0 3px 12px rgba(144, 226, 220, 0.2);
+  }
+
+  .meta .explanation {
+    font-size: 1.2rem;
+    color: #90e2dc;
+    margin-top: 0.5rem;
+    font-style: italic;
   }
 </style>
 
-<div class="slide thank-you">
-  <div>
-    <h1>ありがとうございました！</h1>
-    <p class="author">@yujiteshima</p>
+<div class="slide meta">
+  <h1>ちなみに、このスライドは...</h1>
+
+  <div class="content">
+    <div class="reveal">
+      <h2>Turboで作りました！</h2>
+      <p>Turbo Framesでスライドをページング</p>
+      <p>リロードなしでスムーズに切り替え</p>
+    </div>
+
+    <div class="images">
+      <div class="image-section">
+        <h3>layout.html</h3>
+        <img src="/images/turbo-slide-layout_html.png" alt="Turbo Slide Layout" class="code-image">
+      </div>
+
+      <div class="image-section">
+        <h3>server.js</h3>
+        <img src="/images/turbo-slide-server_js.png" alt="Turbo Slide Server.js" class="code-image">
+      </div>
+    </div>
+
+    <p class="explanation">LT用を楽しくする専用のslideアプリのver0.00として使いやすくしていきたい</p>
   </div>
 </div>

@@ -1,63 +1,66 @@
 <style>
-  .reread h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    color: #90e2dc;
+  .first-step-decision h1 {
+    font-size: 3.1rem;
+    margin-bottom: 0.6rem;
+    background: linear-gradient(135deg, #12d6b0 0%, #7df0d9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .reread .content {
-    font-size: 2rem;
-    line-height: 1.7;
+  .first-step-decision .content {
+    font-size: 1.7rem;
+    line-height: 1.6;
     text-align: left;
-    max-width: 1000px;
+    max-width: 1150px;
     margin: 0 auto;
   }
 
-  .reread .realization {
-    background: rgba(18, 214, 176, 0.1);
-    padding: 1.2rem;
+  .first-step-decision .decision {
+    background: rgba(18, 214, 176, 0.12);
+    padding: 1.4rem 1.6rem;
     border-radius: 12px;
-    border-left: 4px solid #12d6b0;
-    margin: 0.8rem 0;
+    border: 2px solid #12d6b0;
+    margin: 0.6rem 0 0.2rem;
   }
 
-  .reread .realization h2 {
-    font-size: 2.5rem;
+  .first-step-decision .decision h2 {
+    font-size: 2rem;
     color: #12d6b0;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.6rem;
   }
 
-  .reread .realization p {
-    font-size: 1.9rem;
-    line-height: 1.9;
-    margin-bottom: 1rem;
+  .first-step-decision .decision p {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    margin: 0.35rem 0;
   }
 
-  .reread .growth {
-    font-size: 2.3rem;
-    color: #ffa441;
-    font-weight: bold;
-    text-align: center;
+  .first-step-decision .decision .highlight {
+    font-size: 2rem;
+    color: #12d6b0;
+    font-weight: 800;
+    margin-top: 0.6rem;
+  }
+
+  .first-step-decision .footnote {
     margin-top: 1rem;
+    font-size: 1.4rem;
+    color: #90e2dc;
   }
 </style>
 
-<div class="slide reread">
-  <h1>もう一度読み直してみたら</h1>
+<div class="slide first-step-decision">
+  <h1>それでもやってみようと決めた</h1>
 
   <div class="content">
-    <p>プルリクを送った後</p>
-    <p>もう一度issueとPRを読み直してみた</p>
-    <p>それに関するソースも読み直してみた</p>
-
-    <div class="realization">
-      <h2>気づき</h2>
-      <p>前は理解できなかった議論</p>
-      <p>今は分かる</p>
-      <p>なぜこの実装になったのか</p>
-      <p>なぜこの判断をしたのか</p>
+    <div class="decision">
+      <h2>モチベーション</h2>
+      <p>HotwireでLTする！頑張ったことをちゃんと伝えたい。</p>
+      <p>そのためにプロダクトに触って、良いところをもっと知りたい。</p>
+      <p class="highlight">だから、やってみることにした。</p>
     </div>
 
-    <p class="growth">意識が少し変わるだけで前よりソースが理解できるようになる</p>
+    <p class="footnote">Thank you! frontend.stmn</p>
   </div>
 </div>

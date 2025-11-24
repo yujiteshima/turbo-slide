@@ -1,88 +1,63 @@
 <style>
-  .stakeholder h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    color: #ffa441;
+  .reread h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: #90e2dc;
   }
 
-  .stakeholder .content {
-    font-size: 2rem;
-    line-height: 1.7;
+  .reread .content {
+    font-size: 1.6rem;
+    line-height: 1.4;
     text-align: left;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
-  .stakeholder .before-after {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin: 2.5rem 0;
-  }
-
-  .stakeholder .box {
-    padding: 2rem;
-    border-radius: 12px;
-  }
-
-  .stakeholder .before {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid #666;
-  }
-
-  .stakeholder .after {
+  .reread .realization {
     background: rgba(18, 214, 176, 0.1);
-    border: 2px solid #12d6b0;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    border-left: 3px solid #12d6b0;
+    margin: 0.5rem 0;
   }
 
-  .stakeholder .box h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .stakeholder .before h2 {
-    color: #999;
-  }
-
-  .stakeholder .after h2 {
+  .reread .realization h2 {
+    font-size: 1.9rem;
     color: #12d6b0;
+    margin-bottom: 0.6rem;
   }
 
-  .stakeholder .box p {
-    font-size: 1.7rem;
-    line-height: 1.8;
+  .reread .realization p {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
   }
 
-  .stakeholder .feeling {
-    font-size: 2.5rem;
+  .reread .growth {
+    font-size: 1.8rem;
     color: #ffa441;
     font-weight: bold;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 0.6rem;
   }
 </style>
 
-<div class="slide stakeholder">
-  <h1>当事者になるということ</h1>
+<div class="slide reread">
+  <h1>もう一度読み直してみたら</h1>
 
   <div class="content">
-    <div class="before-after">
-      <div class="box before">
-        <h2>使う側</h2>
-        <p>便利なツール</p>
-        <p>ありがたく使う</p>
-        <p>問題があったら諦める</p>
-      </div>
+    <p>プルリクを送った後</p>
+    <p>もう一度issueとPRを読み直してみた</p>
+    <p>それに関するソースも読み直してみた</p>
 
-      <div class="box after">
-        <h2>当事者</h2>
-        <p>プロジェクトの一部</p>
-        <p>良くしたい気持ち</p>
-        <p>問題があったら改善する</p>
-      </div>
+    <div class="realization">
+      <h2>気づき</h2>
+      <p>前は理解できなかった議論</p>
+      <p>今は分かる</p>
+      <p>なぜこの実装になったのか</p>
+      <p>なぜこの判断をしたのか</p>
     </div>
 
-    <p class="feeling">見え方が変わった</p>
-    <p style="text-align: center; font-size: 1.8rem; margin-top: 1rem;">プロジェクトへの愛着が生まれた</p>
+    <p class="growth">意識が少し変わるだけで前よりソースが理解できるようになる</p>
   </div>
 </div>

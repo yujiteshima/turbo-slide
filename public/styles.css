@@ -69,14 +69,14 @@ body {
 .slide {
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-width: calc((100vh - 160px) * 16 / 9);
-  max-height: calc(100vh - 160px);
+  max-width: calc((100vh - 60px) * 16 / 9);
+  max-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.5rem 0.8rem 0.8rem;
   font-size: 1.5rem;
   overflow-y: auto;
   overflow-x: hidden;
@@ -89,49 +89,5 @@ body {
  */
 
 .nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: rgba(24, 24, 24, 0.9);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid #333;
-  z-index: 10;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  background: #f5f5f5;
-  color: #111;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.btn:hover:not(.disabled) {
-  background: #e0e0e0;
-}
-
-.btn.disabled {
-  opacity: 0.4;
-  cursor: default;
-  pointer-events: none;
-}
-
-.hint {
-  position: fixed;
-  bottom: 4rem;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0.7;
-  font-size: 0.8rem;
-  z-index: 11;
+  display: none !important;
 }

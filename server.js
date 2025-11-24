@@ -76,7 +76,7 @@ app.get("/slide/:id", (req, res) => {
     return res.send(`
       <turbo-frame id="slide-content">
         ${slideContent}
-        <div class="nav">
+        <div class="nav" style="display: none;">
           ${navButtons}
         </div>
       </turbo-frame>

@@ -10,7 +10,22 @@
   <div class="top-bar">
     <div>Hotwire LT Demo</div>
     <div class="top-bar-right">
-      <div class="timer" id="timer">10:00</div>
+      <div class="progress-indicators">
+        <div class="progress-item">
+          <div class="progress-label">Slide</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="slide-progress"></div>
+          </div>
+          <div class="progress-text" id="slide-text">1/22</div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">Time</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar timer-progress" id="timer-progress"></div>
+          </div>
+          <div class="progress-text timer" id="timer">10:00</div>
+        </div>
+      </div>
       <button class="fullscreen-btn" id="fullscreen-btn" title="フルスクリーン">⛶</button>
     </div>
   </div>

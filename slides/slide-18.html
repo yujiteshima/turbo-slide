@@ -1,0 +1,97 @@
+<style>
+  .meta h1 {
+    font-size: 3.2rem;
+    margin-bottom: 3rem;
+    color: #ffa441;
+  }
+
+  .meta .content {
+    font-size: 2rem;
+    line-height: 2.2;
+    text-align: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .meta .reveal {
+    background: rgba(255, 164, 65, 0.15);
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    border: 3px solid #ffa441;
+    margin: 1rem 0;
+  }
+
+  .meta .reveal h2 {
+    font-size: 2.5rem;
+    color: #ffa441;
+    margin-bottom: 1rem;
+  }
+
+  .meta .reveal p {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+  }
+
+  .meta .images {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .meta .image-section {
+    text-align: center;
+  }
+
+  .meta .image-section h3 {
+    font-size: 2rem;
+    color: #90e2dc;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  .meta .code-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid #90e2dc;
+    box-shadow: 0 4px 16px rgba(144, 226, 220, 0.2);
+  }
+
+  .meta .explanation {
+    font-size: 1.6rem;
+    color: #90e2dc;
+    margin-top: 2rem;
+    font-style: italic;
+  }
+</style>
+
+<div class="slide meta">
+  <h1>ちなみに、このスライドは...</h1>
+
+  <div class="content">
+    <div class="reveal">
+      <h2>Turboで作りました！</h2>
+      <p>Turbo Framesでスライドをページング</p>
+      <p>リロードなしでスムーズに切り替え</p>
+    </div>
+
+    <div class="images">
+      <div class="image-section">
+        <h3>layout.html</h3>
+        <img src="/images/turbo-slide-layout_html.png" alt="Turbo Slide Layout" class="code-image">
+      </div>
+
+      <div class="image-section">
+        <h3>server.js</h3>
+        <img src="/images/turbo-slide-server_js.png" alt="Turbo Slide Server.js" class="code-image">
+      </div>
+    </div>
+
+    <p class="explanation">LT用を楽しくする専用のslideアプリのver0.00として使いやすくしていきたい</p>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<style>
+  .new-view h1 {
+    font-size: 3.5rem;
+    margin-bottom: 2.5rem;
+    background: linear-gradient(135deg, #12d6b0 0%, #90e2dc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .new-view .content {
+    font-size: 1.8rem;
+    line-height: 2;
+    text-align: left;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .new-view .discoveries {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .new-view .discovery-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.8rem;
+    border-radius: 12px;
+    border: 2px solid #90e2dc;
+  }
+
+  .new-view .discovery-box h2 {
+    font-size: 1.9rem;
+    color: #90e2dc;
+    margin-bottom: 1rem;
+  }
+
+  .new-view .discovery-box ul {
+    list-style: none;
+    padding: 0;
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  .new-view .discovery-box li {
+    margin: 0.7rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .new-view .discovery-box li::before {
+    content: "▸ ";
+    position: absolute;
+    left: 0;
+    color: #90e2dc;
+  }
+
+  .new-view .maintainer {
+    background: rgba(255, 164, 65, 0.1);
+    padding: 1.8rem;
+    border-radius: 12px;
+    border-left: 4px solid #ffa441;
+    margin-top: 2rem;
+    grid-column: 1 / 3;
+  }
+
+  .new-view .maintainer h2 {
+    font-size: 1.9rem;
+    color: #ffa441;
+    margin-bottom: 1rem;
+  }
+
+  .new-view .maintainer p {
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+</style>
+
+<div class="slide new-view">
+  <h1>見えてきた新しい景色</h1>
+
+  <div class="content">
+    <div class="discoveries">
+      <div class="discovery-box">
+        <h2>ユーザーの声</h2>
+        <ul>
+          <li>不満がたくさん</li>
+          <li>要望もたくさん</li>
+          <li>時には矛盾している</li>
+        </ul>
+      </div>
+
+      <div class="discovery-box">
+        <h2>開発の現場</h2>
+        <ul>
+          <li>方針にかかわるPR</li>
+          <li>意思決定の過程</li>
+          <li>自分にもできることがある</li>
+        </ul>
+      </div>
+
+      <div class="maintainer">
+        <h2>メンテナーの姿</h2>
+        <p>頑張っている、苦悩している、それでも何かに駆動されて前に進んでいる</p>
+      </div>
+    </div>
+  </div>
+</div>

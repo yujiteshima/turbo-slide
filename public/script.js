@@ -56,7 +56,7 @@
 
     if (match) {
       const currentSlide = parseInt(match[2], 10);
-      const totalSlides = 22; // スライドの総数
+      const totalSlides = 23; // スライドの総数
 
       if (slideTextEl) {
         slideTextEl.textContent = currentSlide + "/" + totalSlides;
@@ -92,7 +92,7 @@
       if (match) {
         setTimeout(function() {
           const currentSlide = parseInt(match[2], 10);
-          const totalSlides = 22;
+          const totalSlides = 23;
 
           if (slideTextEl) {
             slideTextEl.textContent = currentSlide + "/" + totalSlides;
@@ -115,7 +115,7 @@ if (window.PRESENTER_MODE) {
   function updateSlideProgress(slideId) {
     const slideProgressEl = document.getElementById("slide-progress");
     const slideTextEl = document.getElementById("slide-text");
-    const totalSlides = 22;
+    const totalSlides = 23;
 
     if (slideTextEl) {
       slideTextEl.textContent = slideId + "/" + totalSlides;
@@ -204,7 +204,7 @@ if (window.VIEWER_MODE) {
   function updateSlideProgress(slideId) {
     const slideProgressEl = document.getElementById("slide-progress");
     const slideTextEl = document.getElementById("slide-text");
-    const totalSlides = 22;
+    const totalSlides = 23;
 
     if (slideTextEl) {
       slideTextEl.textContent = slideId + "/" + totalSlides;

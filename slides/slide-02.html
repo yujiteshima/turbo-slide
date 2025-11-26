@@ -1,78 +1,19 @@
-<style>
-  .slide-02 h1 {
-    margin-bottom: 0.5rem;
-  }
-
-  .self-intro {
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .self-intro-content {
-    text-align: left;
-    width: auto;
-  }
-
-  .self-intro img.profile {
-    width: 320px;
-    height: auto;
-    object-fit: contain;
-  }
-
-  .self-intro h2 {
-    font-size: 3.2rem;
-    margin-bottom: 1rem;
-  }
-
-  .self-intro .info {
-    font-size: 1.7rem;
-    line-height: 1.7;
-    margin-bottom: 1rem;
-  }
-
-  .self-intro .company-logos {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-top: 1.2rem;
-  }
-
-  .self-intro .company-logos img {
-    height: 60px;
-    width: auto;
-    background: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-  }
-
-  .self-intro .hobby {
-    margin-top: 1.2rem;
-    padding-top: 1.8rem;
-    border-top: 1px solid #444;
-  }
-</style>
-
-<div class="slide slide-02">
-  <h1>自己紹介</h1>
-  <div class="self-intro">
-    <img src="/images/self-introduction.png" alt="手島裕司" class="profile">
-    <div class="self-intro-content">
-      <h2>手島裕司</h2>
-      <div class="info">
+<div class="slide-container">
+  <h1 class="text-5xl font-bold mb-2 text-center">自己紹介</h1>
+  <div class="flex gap-12 items-center justify-center w-full max-w-6xl mx-auto">
+    <img src="/images/self-introduction.png" alt="手島裕司" class="w-80 h-auto object-contain">
+    <div class="text-left">
+      <h2 class="text-5xl font-bold mb-4">手島裕司</h2>
+      <div class="text-3xl leading-relaxed mb-4">
         <div>株式会社スタジアム</div>
-        <div class="company-logos">
-          <img src="/images/stadium-logo.svg" alt="STADIUM">
-          <img src="/images/fants-logo.svg" alt="FANTS">
+        <div class="flex gap-4 items-center mt-5">
+          <img src="/images/stadium-logo.svg" alt="STADIUM" class="h-16 w-auto bg-white px-5 py-2 rounded-lg">
+          <img src="/images/fants-logo.svg" alt="FANTS" class="h-16 w-auto bg-white px-5 py-2 rounded-lg">
         </div>
       </div>
-      <div class="hobby">
-        <div class="info">好きな食べ物：お寿司 🍣</div>
-        <div class="info">最近頑張っていること：ダイエット 💪</div>
+      <div class="mt-5 pt-7 border-t border-gray-600">
+        <div class="text-3xl leading-relaxed mb-4">好きな食べ物：お寿司 🍣</div>
+        <div class="text-3xl leading-relaxed mb-4">最近頑張っていること：ダイエット 💪</div>
       </div>
     </div>
   </div>

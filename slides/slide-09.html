@@ -1,83 +1,26 @@
-<style>
-  .issue-pr h1 {
-    font-size: 3rem;
-    margin-bottom: 0.6rem;
-    background: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+<div class="slide-container">
+  <h1 class="text-5xl font-bold mb-2 text-center bg-gradient-to-r from-slide-primary to-slide-secondary bg-clip-text text-transparent">issueとPRを読む</h1>
 
-  .issue-pr .content {
-    font-size: 1.8rem;
-    line-height: 1.6;
-    text-align: left;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
+  <div class="max-w-6xl mx-auto text-3xl">
+    <p class="mb-2">ソースを読むついでに</p>
+    <p class="mb-2">issueやPull Requestのやり取りも読んでみた</p>
 
-  .issue-pr .content > p {
-    margin-bottom: 0.5rem;
-  }
-
-  .issue-pr .discovery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1.2rem;
-  }
-
-  .issue-pr .discovery-box {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.2rem 1.5rem;
-    border-radius: 12px;
-    border: 2px solid #06b6d4;
-  }
-
-  .issue-pr .discovery-box h2 {
-    font-size: 1.9rem;
-    color: #06b6d4;
-    margin-bottom: 0.6rem;
-  }
-
-  .issue-pr .discovery-box p {
-    font-size: 1.5rem;
-    line-height: 1.5;
-    margin-bottom: 0.3rem;
-  }
-
-  .issue-pr .moment {
-    font-size: 2.2rem;
-    color: #f97316;
-    font-weight: bold;
-    margin-top: 1rem;
-    text-align: center;
-  }
-</style>
-
-<div class="slide issue-pr">
-  <h1>issueとPRを読む</h1>
-
-  <div class="content">
-    <p>ソースを読むついでに</p>
-    <p>issueやPull Requestのやり取りも読んでみた</p>
-
-    <div class="discovery">
-      <div class="discovery-box">
-        <h2>面白い発見</h2>
-        <p>ユーザーの困りごと</p>
-        <p>解決のアプローチ</p>
-        <p>議論の過程</p>
+    <div class="grid grid-cols-2 gap-4 mt-5">
+      <div class="bg-white/5 p-5 rounded-xl border-2 border-slide-secondary">
+        <h2 class="text-3xl text-slide-secondary mb-2">面白い発見</h2>
+        <p class="text-2xl mb-1">ユーザーの困りごと</p>
+        <p class="text-2xl mb-1">解決のアプローチ</p>
+        <p class="text-2xl">議論の過程</p>
       </div>
 
-      <div class="discovery-box">
-        <h2>読んでいて気づく</h2>
-        <p>解決できそうなissue</p>
-        <p>シンプルな問題もある</p>
-        <p>コードも読めるようになってきた</p>
+      <div class="bg-white/5 p-5 rounded-xl border-2 border-slide-secondary">
+        <h2 class="text-3xl text-slide-secondary mb-2">読んでいて気づく</h2>
+        <p class="text-2xl mb-1">解決できそうなissue</p>
+        <p class="text-2xl mb-1">シンプルな問題もある</p>
+        <p class="text-2xl">コードも読めるようになってきた</p>
       </div>
     </div>
 
-    <p class="moment">「あ、自分にもできるかも？」</p>
+    <p class="text-4xl text-slide-accent font-bold mt-4 text-center">「あ、自分にもできるかも？」</p>
   </div>
 </div>

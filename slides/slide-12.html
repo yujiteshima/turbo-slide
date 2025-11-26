@@ -1,71 +1,19 @@
-<style>
-  .first-action h1 {
-    font-size: 2.8rem;
-    margin-bottom: 0.8rem;
-    background: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+<div class="slide-container">
+  <h1 class="text-5xl font-bold mb-3 text-center bg-gradient-to-r from-slide-primary to-slide-secondary bg-clip-text text-transparent">実際にやったこと</h1>
 
-  .first-action .content {
-    font-size: 1.6rem;
-    line-height: 1.5;
-    text-align: left;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .first-action .action {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-    margin-top: 1rem;
-  }
-
-  .first-action .action-box {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.5rem;
-    border-radius: 10px;
-    border: 2px solid #06b6d4;
-  }
-
-  .first-action .action-box h3 {
-    font-size: 2rem;
-    color: #06b6d4;
-    margin-bottom: 0.8rem;
-  }
-
-  .first-action .action-box p {
-    font-size: 1.6rem;
-    line-height: 1.6;
-    margin: 0.5rem 0;
-  }
-
-  .first-action .helper {
-    font-size: 1.4rem;
-    color: #f97316;
-    margin-top: 0.8rem;
-    font-style: italic;
-  }
-</style>
-
-<div class="slide first-action">
-  <h1>実際にやったこと</h1>
-
-  <div class="content">
-    <div class="action">
-      <div class="action-box">
-        <h3>バグ修正のステップ</h3>
-        <p>最小構成でバグ再現</p>
-        <p>テスト書いて修正</p>
-        <p>プルリク作成！</p>
+  <div class="max-w-6xl mx-auto text-3xl">
+    <div class="grid grid-cols-2 gap-5 mt-4">
+      <div class="bg-white/5 p-6 rounded-lg border-2 border-slide-secondary">
+        <h3 class="text-3xl text-slide-secondary mb-3">バグ修正のステップ</h3>
+        <p class="text-3xl mb-2">最小構成でバグ再現</p>
+        <p class="text-3xl mb-2">テスト書いて修正</p>
+        <p class="text-3xl">プルリク作成！</p>
       </div>
 
-      <div class="action-box">
-        <h3>英語のドキュメント</h3>
-        <p>AIに助けてもらった</p>
-        <p class="helper">堅苦しいけど、構造化されて見やすく！</p>
+      <div class="bg-white/5 p-6 rounded-lg border-2 border-slide-secondary">
+        <h3 class="text-3xl text-slide-secondary mb-3">英語のドキュメント</h3>
+        <p class="text-3xl mb-3">AIに助けてもらった</p>
+        <p class="text-2xl text-slide-accent italic">堅苦しいけど、構造化されて見やすく！</p>
       </div>
     </div>
   </div>

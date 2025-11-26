@@ -7,9 +7,14 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build:css": "npx tailwindcss -i ./public/tailwind-input.css -o ./public/tailwind.css --watch",
+    "build:css:prod": "npx tailwindcss -i ./public/tailwind-input.css -o ./public/tailwind.css --minify"
   },
   "dependencies": {
     "express": "^4.19.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.18"
   }
 }

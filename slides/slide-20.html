@@ -1,98 +1,25 @@
-<style>
-  .meta h1 {
-    font-size: 2.4rem;
-    margin-bottom: 0.3rem;
-    color: #f97316;
-  }
+<div class="slide-container p-4">
+  <h1 class="text-4xl font-bold mb-1 text-slide-accent text-center">ちなみに、このスライドは...</h1>
 
-  .meta .content {
-    font-size: 1.6rem;
-    line-height: 1.4;
-    text-align: center;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .meta .reveal {
-    background: rgba(255, 164, 65, 0.15);
-    padding: 0.6rem 1rem;
-    border-radius: 12px;
-    border: 2px solid #f97316;
-    margin: 0.1rem 0;
-  }
-
-  .meta .reveal h2 {
-    font-size: 1.6rem;
-    color: #f97316;
-    margin-bottom: 0.3rem;
-  }
-
-  .meta .reveal p {
-    font-size: 1.1rem;
-    line-height: 1.2;
-    margin: 0.2rem 0;
-  }
-
-  .meta .images {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    margin-top: 0.4rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .meta .image-section {
-    text-align: center;
-  }
-
-  .meta .image-section h3 {
-    font-size: 1.2rem;
-    color: #06b6d4;
-    margin-bottom: 0.3rem;
-    font-weight: bold;
-  }
-
-  .meta .code-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border: 2px solid #06b6d4;
-    box-shadow: 0 3px 12px rgba(144, 226, 220, 0.2);
-  }
-
-  .meta .explanation {
-    font-size: 1.2rem;
-    color: #06b6d4;
-    margin-top: 0.5rem;
-    font-style: italic;
-  }
-</style>
-
-<div class="slide meta">
-  <h1>ちなみに、このスライドは...</h1>
-
-  <div class="content">
-    <div class="reveal">
-      <h2>Turboで作りました！</h2>
-      <p>Turbo Framesでスライドをページング</p>
-      <p>リロードなしでスムーズに切り替え</p>
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="bg-orange-500/15 p-2 rounded-xl border-2 border-slide-accent mb-2">
+      <h2 class="text-3xl text-slide-accent mb-1">Turboで作りました！</h2>
+      <p class="text-lg">Turbo Framesでスライドをページング</p>
+      <p class="text-lg">リロードなしでスムーズに切り替え</p>
     </div>
 
-    <div class="images">
-      <div class="image-section">
-        <h3>layout.html</h3>
-        <img src="/images/turbo-slide-layout_html.png" alt="Turbo Slide Layout" class="code-image">
+    <div class="flex flex-col items-center gap-2">
+      <div class="text-center">
+        <h3 class="text-xl text-slide-secondary font-bold mb-1">layout.html</h3>
+        <img src="/images/turbo-slide-layout_html.png" alt="Turbo Slide Layout" class="w-full rounded-lg border-2 border-slide-secondary shadow-lg shadow-cyan-500/20">
       </div>
 
-      <div class="image-section">
-        <h3>server.js</h3>
-        <img src="/images/turbo-slide-server_js.png" alt="Turbo Slide Server.js" class="code-image">
+      <div class="text-center">
+        <h3 class="text-xl text-slide-secondary font-bold mb-1">server.js</h3>
+        <img src="/images/turbo-slide-server_js.png" alt="Turbo Slide Server.js" class="w-full rounded-lg border-2 border-slide-secondary shadow-lg shadow-cyan-500/20">
       </div>
     </div>
 
-    <p class="explanation">LT用を楽しくする専用のslideアプリのver0.00として使いやすくしていきたい</p>
+    <p class="text-xl text-slide-secondary italic mt-2">LT用を楽しくする専用のslideアプリのver0.00として使いやすくしていきたい</p>
   </div>
 </div>

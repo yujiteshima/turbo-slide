@@ -1,65 +1,14 @@
-<style>
-  .demo-slide {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 2rem;
-  }
+<div class="slide-container">
+  <h1 class="text-7xl font-bold mb-8 text-center text-gray-800">デモします</h1>
 
-  .demo-slide h1 {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-    color: #2d3748;
-  }
+  <div class="flex flex-col items-center gap-8 max-w-4xl mx-auto">
+    <img src="/images/turbo-slide-demo.svg" alt="Turbo Slide Demo" class="w-96 rounded-xl shadow-2xl">
 
-  .demo-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    max-width: 900px;
-  }
-
-  .demo-image {
-    width: 400px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  }
-
-  .demo-url {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #3182ce;
-    background: #ebf8ff;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    border: 3px solid #3182ce;
-    text-align: center;
-    word-break: break-all;
-  }
-
-  .demo-instruction {
-    font-size: 1.4rem;
-    color: #4a5568;
-    text-align: center;
-    margin-top: 1rem;
-  }
-</style>
-
-<div class="slide demo-slide">
-  <h1>デモします</h1>
-
-  <div class="demo-content">
-    <img src="/images/turbo-slide-demo.svg" alt="Turbo Slide Demo" class="demo-image">
-
-    <div class="demo-url">
+    <div class="text-3xl font-semibold text-blue-600 bg-blue-50 px-8 py-4 rounded-lg border-4 border-blue-600 text-center break-all">
       https://turbo-slide.onrender.com/viewer
     </div>
 
-    <p class="demo-instruction">
+    <p class="text-2xl text-gray-600 text-center">
       ↑ こちらのURLにアクセスしてください
     </p>
   </div>

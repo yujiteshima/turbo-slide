@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* スライド専用カスタムクラス */
+@layer components {
+  .slide-container {
+    @apply w-full h-full flex flex-col justify-center items-center p-8;
+  }
+
+  .slide-title {
+    @apply text-5xl font-bold mb-6;
+  }
+
+  .slide-subtitle {
+    @apply text-2xl opacity-80;
+  }
+
+  .slide-content {
+    @apply text-xl leading-relaxed max-w-4xl mx-auto;
+  }
+}

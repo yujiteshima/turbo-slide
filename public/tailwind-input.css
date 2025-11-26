@@ -4,10 +4,17 @@
 
 /* スライド専用カスタムクラス */
 @layer components {
+  /* デフォルト: 上部固定レイアウト（通常のコンテンツスライド用） */
   .slide-container {
-    @apply w-full h-full flex flex-col justify-center items-center p-8;
+    @apply w-full h-full flex flex-col justify-start items-center pt-12 pb-6 px-8 overflow-hidden;
   }
 
+  /* タイトルスライド用: 中央揃え */
+  .slide-container-center {
+    @apply w-full h-full flex flex-col justify-center items-center p-8 overflow-hidden;
+  }
+
+  /* タイトル共通スタイル */
   .slide-title {
     @apply text-5xl font-bold mb-6;
   }
@@ -16,7 +23,8 @@
     @apply text-2xl opacity-80;
   }
 
+  /* コンテンツエリア: スクロールバーが出ないように */
   .slide-content {
-    @apply text-xl leading-relaxed max-w-4xl mx-auto;
+    @apply text-xl leading-relaxed max-w-4xl mx-auto max-h-full;
   }
 }

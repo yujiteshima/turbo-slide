@@ -1,40 +1,40 @@
 <div class="slide-container">
-  <h1 class="text-5xl font-bold mb-3 text-center">Hotwireの技術概要</h1>
+  <h1 class="text-5xl font-bold mb-2 text-center">Hotwireの技術概要</h1>
 
   <div class="max-w-6xl mx-auto text-left">
-    <div class="grid grid-cols-2 gap-4 mb-3">
-      <div class="bg-white/5 p-6 rounded-lg border-2 border-slide-secondary">
-        <h2 class="text-3xl text-slide-secondary mb-4">Turbo</h2>
-        <h3 class="text-2xl text-slide-primary mt-4 mb-2">Drive</h3>
+    <div class="grid grid-cols-2 gap-3 mb-2">
+      <div class="bg-white/5 p-4 rounded-lg border-2 border-slide-secondary">
+        <h2 class="text-3xl text-slide-secondary mb-2">Turbo</h2>
+        <h3 class="text-2xl text-slide-primary mt-3 mb-1">Drive</h3>
         <ul class="text-xl space-y-1 list-none pl-4">
           <li class="before:content-['→_'] before:text-slide-secondary">body入れ替え、headの差分マージ</li>
           <li class="before:content-['→_'] before:text-slide-secondary">SWR型キャッシュ</li>
         </ul>
-        <h3 class="text-2xl text-slide-primary mt-4 mb-2">Frames</h3>
+        <h3 class="text-2xl text-slide-primary mt-3 mb-1">Frames</h3>
         <ul class="text-xl space-y-1 list-none pl-4">
           <li class="before:content-['→_'] before:text-slide-secondary">部分変更</li>
         </ul>
-        <h3 class="text-2xl text-slide-primary mt-4 mb-2">Streams</h3>
+        <h3 class="text-2xl text-slide-primary mt-3 mb-1">Streams</h3>
         <ul class="text-xl space-y-1 list-none pl-4">
           <li class="before:content-['→_'] before:text-slide-secondary">SSE/WebSocketでサーバープッシュ</li>
           <li class="before:content-['→_'] before:text-slide-secondary">1回で複数の要素を更新</li>
         </ul>
       </div>
 
-      <div class="bg-white/5 p-6 rounded-lg border-2 border-slide-secondary">
-        <h2 class="text-3xl text-slide-secondary mb-4">Stimulus</h2>
+      <div class="bg-white/5 p-4 rounded-lg border-2 border-slide-secondary">
+        <h2 class="text-3xl text-slide-secondary mb-2">Stimulus</h2>
         <p class="text-xl mb-2">画面遷移・form送信以外のJSをいい感じに書く</p>
         <ul class="text-xl space-y-1 list-none pl-4">
           <li class="before:content-['→_'] before:text-slide-secondary">状態管理もできる</li>
           <li class="before:content-['→_'] before:text-slide-secondary">React的なこともできる</li>
         </ul>
         <br>
-        <h2 class="text-3xl text-slide-secondary mt-6 mb-3">Native</h2>
+        <h2 class="text-3xl text-slide-secondary mt-4 mb-2">Native</h2>
         <p class="text-xl">ネイティブアプリ対応</p>
       </div>
     </div>
 
-    <div class="bg-orange-500/10 p-6 rounded-lg border-2 border-slide-accent text-2xl">
+    <div class="bg-orange-500/10 p-4 rounded-lg border-2 border-slide-accent text-2xl">
       <strong class="text-slide-accent">仕組み:</strong> aタグ、link、formの通信をインターセプト → fetchでHTMLを取得 → 差し替え
     </div>
   </div>

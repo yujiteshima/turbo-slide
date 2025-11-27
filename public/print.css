@@ -1,0 +1,73 @@
+/* Print専用スタイル - SpeakerDeck用PDF出力 */
+
+/* ページ設定: 16:9のアスペクト比 */
+@page {
+  size: 297mm 167.06mm; /* 16:9 ratio (A4 landscape width base) */
+  margin: 0;
+}
+
+/* 画面表示用（プレビュー） */
+.print-body {
+  margin: 0;
+  padding: 0;
+  background: #1a1a1a;
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  flex-direction: initial !important;
+}
+
+.print-slide {
+  width: 297mm;
+  height: 167.06mm;
+  margin: 20px auto;
+  background: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 印刷時のスタイル */
+@media print {
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .print-body {
+    background: white;
+  }
+
+  .print-slide {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+
+  /* 最後のスライドはページブレークしない */
+  .print-slide:last-child {
+    page-break-after: avoid;
+  }
+}
+
+/* 不要な要素を非表示 */
+.print-body .top-bar,
+.print-body .nav,
+.print-body #slide-content {
+  display: none !important;
+}
+
+/* スライドコンテナの調整 */
+.print-slide .slide-container,
+.print-slide .slide-container-center {
+  width: 100%;
+  height: 100%;
+  min-height: 167.06mm;
+  display: flex !important;
+  flex-direction: column !important;
+}

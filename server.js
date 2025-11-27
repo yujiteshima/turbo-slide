@@ -246,6 +246,24 @@ app.get("/slide/:id", (req, res) => {
   res.send(html);
 });
 
+// PDF印刷用ページ: 全スライドを表示
+app.get("/print", (req, res) => {
+  const printLayout = fs.readFileSync(path.join(__dirname, "views/print.html"), "utf-8");
+
+  // 全スライドを読み込んでラップ
+  let allSlides = '';
+  for (let i = 1; i <= TOTAL_SLIDES; i++) {
+    const slideContent = loadSlide(i);
+    if (slideContent) {
+      allSlides += `<div class="print-slide">${slideContent}</div>\n`;
+    }
+  }
+
+  const html = printLayout.replace("{{ALL_SLIDES}}", allSlides);
+  res.send(html);
+});
+
+
 // テストページ
 app.get("/test", (req, res) => {
   res.sendFile(path.join(__dirname, "test/test.html"));

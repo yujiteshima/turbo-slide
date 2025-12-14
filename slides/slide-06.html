@@ -1,33 +1,13 @@
 <div class="slide-container">
-  <h1 class="text-5xl font-bold mb-2 text-center">Hotwireの技術概要</h1>
+  <h1 class="slide-h1 slide-mb-2 text-slide-accent text-center">アーキテクチャ図</h1>
 
-  <div class="max-w-6xl mx-auto text-left">
-    <div class="grid grid-cols-2 gap-3 mb-2">
-      <div class="bg-white/5 p-4 rounded-lg border-2 border-slide-secondary">
-        <h2 class="text-3xl text-slide-secondary mb-2">Turbo</h2>
-        <h3 class="text-2xl text-slide-primary mt-3 mb-1">Drive</h3>
-        <ul class="text-xl space-y-1 list-none pl-4">
-          <li class="before:content-['→_'] before:text-slide-secondary">body入れ替え、headの差分マージ</li>
-          <li class="before:content-['→_'] before:text-slide-secondary">SWR型キャッシュ</li>
-        </ul>
-        <h3 class="text-2xl text-slide-primary mt-3 mb-1">Frames</h3>
-        <ul class="text-xl space-y-1 list-none pl-4">
-          <li class="before:content-['→_'] before:text-slide-secondary">部分変更</li>
-        </ul>
-        <h3 class="text-2xl text-slide-primary mt-3 mb-1">Streams</h3>
-        <ul class="text-xl space-y-1 list-none pl-4">
-          <li class="before:content-['→_'] before:text-slide-secondary">SSE/WebSocketでサーバープッシュ</li>
-          <li class="before:content-['→_'] before:text-slide-secondary">1回で複数の要素を更新</li>
-        </ul>
-      </div>
-
-      <div class="bg-white/5 p-4 rounded-lg border-2 border-slide-secondary">
-        <h2 class="text-3xl text-slide-secondary mb-2">Stimulus</h2>
-        <p class="text-xl mb-2">画面遷移・form送信以外のJSをいい感じに書く</p>
-        <br>
-        <h2 class="text-3xl text-slide-secondary mt-4 mb-2">Native</h2>
-        <p class="text-xl">ネイティブアプリ対応</p>
-      </div>
+  <div class="slide-max-w-6xl mx-auto text-center">
+    <div class="bg-slide-accent/10 slide-p-3 rounded-xl border-2 border-slide-accent slide-mb-2">
+      <h2 class="slide-h2 text-slide-accent slide-mb-1">システム構成</h2>
+      <p class="slide-caption">Turbo Framesによる部分更新の仕組み</p>
     </div>
+
+    <img src="/images/architecture.svg" alt="システム構成図"
+         class="slide-img-lg rounded-lg border-2 border-slide-secondary shadow-lg">
   </div>
 </div>

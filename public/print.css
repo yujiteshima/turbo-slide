@@ -62,12 +62,27 @@
   display: none !important;
 }
 
+/* スライドラッパーの調整（Transform Scale無効化） */
+.print-slide .slide {
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* スライドコンテナの調整 */
 .print-slide .slide-container,
 .print-slide .slide-container-center {
   width: 100%;
-  height: 100%;
-  min-height: 167.06mm;
+  flex: 1 !important;
+  min-height: 0;
   display: flex !important;
   flex-direction: column !important;
+}
+
+/* 印刷用の画像サイズ調整 */
+.print-slide img {
+  max-height: 120mm !important;
 }

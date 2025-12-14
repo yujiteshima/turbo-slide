@@ -1,11 +1,27 @@
-<div class="slide-container p-0">
-  <h1 class="text-5xl font-bold mb-2 text-center">Kaigi on Rails 2025で聞いたセッション</h1>
-  <p class="text-center text-2xl">高度なUI/UXこそHotwireで作ろう</p>
-  <p class="text-center text-xl opacity-90 mb-2">by Naofumi Kagami</p>
+<div class="slide-container">
+  <h1 class="slide-h1 slide-mb-2 text-center bg-gradient-to-r from-slide-primary to-slide-secondary bg-clip-text text-transparent">SPAとHotwireの比較</h1>
 
-  <div class="grid grid-cols-2 grid-rows-2 gap-4 max-w-6xl mx-auto">
-    <img src="/images/kaigionrails_session_img.png" alt="Session Slide" class="w-full h-60 object-cover rounded-lg shadow-2xl">
-    <img src="/images/kaigionrails.jpg" alt="Kaigi on Rails 1" class="w-full h-60 object-cover rounded-lg shadow-lg">
-    <img src="/images/kaigionrails_2.jpg" alt="Kaigi on Rails 2" class="col-span-2 w-full h-44 object-cover rounded-lg shadow-lg">
+  <div class="slide-max-w-6xl mx-auto">
+    <div class="grid grid-cols-2 slide-gap-3">
+      <!-- 左カラム -->
+      <div class="bg-white/5 slide-p-4 rounded-lg border-2 border-slide-secondary">
+        <h2 class="slide-h2 text-slide-secondary slide-mb-2">従来のSPA</h2>
+        <ul class="list-none slide-space-y-2 slide-body">
+          <li class="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-slide-secondary">サーバーからJSONを取得</li>
+          <li class="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-slide-secondary">クライアントサイドでレンダリング</li>
+          <li class="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-slide-secondary">複雑な状態管理が必要</li>
+        </ul>
+      </div>
+
+      <!-- 右カラム -->
+      <div class="bg-slide-primary/10 slide-p-4 rounded-lg border-2 border-slide-primary">
+        <h2 class="slide-h2 text-slide-primary slide-mb-2">Hotwire</h2>
+        <ul class="list-none slide-space-y-2 slide-body">
+          <li class="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-slide-primary">サーバーからHTMLを取得</li>
+          <li class="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-slide-primary">そのまま画面に反映</li>
+          <li class="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-slide-primary">シンプルな実装</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

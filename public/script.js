@@ -1,3 +1,41 @@
+// Transform Scale: スライドを画面サイズに合わせてスケール
+(function setupSlideScale() {
+  const DESIGN_WIDTH = 960;
+  const DESIGN_HEIGHT = 540;
+
+  function scaleSlide() {
+    const slide = document.querySelector('.slide');
+    if (!slide) return;
+
+    const container = document.getElementById('slide-content');
+    if (!container) return;
+
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+
+    if (containerWidth === 0 || containerHeight === 0) {
+      setTimeout(scaleSlide, 50);
+      return;
+    }
+
+    const scaleX = containerWidth / DESIGN_WIDTH;
+    const scaleY = containerHeight / DESIGN_HEIGHT;
+    const scale = Math.min(scaleX, scaleY);
+
+    slide.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(scaleSlide, 50));
+  } else {
+    setTimeout(scaleSlide, 50);
+  }
+
+  window.addEventListener('resize', scaleSlide);
+  document.addEventListener('turbo:frame-load', () => setTimeout(scaleSlide, 50));
+  document.addEventListener('fullscreenchange', () => setTimeout(scaleSlide, 100));
+})();
+
 // 10分カウントダウンタイマー + プログレスバー更新
 (function startTimer() {
   const timerEl = document.getElementById("timer");
@@ -73,7 +111,7 @@
   updateProgress();
 
   // Turbo Frameの更新を監視
-  document.addEventListener("turbo:frame-load", function(event) {
+  document.addEventListener("turbo:frame-load", function() {
     // Turbo Frameがロードされた後、少し待ってから更新
     setTimeout(updateProgress, 100);
   });

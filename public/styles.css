@@ -103,30 +103,46 @@ body {
   border-color: #a0aec0;
 }
 
-#slide-content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* turbo-frame要素のスタイリング */
+turbo-frame#slide-content {
+  display: block;
+  flex: 1 1 auto;
   overflow: hidden;
   position: relative;
+  width: 100%;
+  height: calc(100vh - 60px); /* top-barの高さを引いた残り全体 */
+  min-height: 0;
 }
 
+/*
+ * Transform Scale方式（reveal.js風）
+ * 固定解像度（960×540）で設計し、画面に合わせてスケール
+ */
 .slide {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-width: calc((100vh - 60px) * 16 / 9);
-  max-height: calc(100vh - 60px);
+  /* 固定デザイン解像度（16:9） */
+  width: 960px;
+  height: 540px;
+
+  /* レイアウト - 子要素に任せる */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  text-align: center;
-  padding: 1.5rem 0.8rem 0.8rem;
-  font-size: 1.5rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative;
+
+  /* パディングは最小限（コンテンツ側で調整） */
+  padding: 20px 30px;
+
+  /* オーバーフローは隠す（スケールで対応） */
+  overflow: hidden;
+
+  /* スケール用の設定 */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  /* デフォルトでセンタリング（JSがscaleを計算するまでの間チラつき防止） */
+  transform: translate(-50%, -50%);
+
+  /* 背景 */
+  background: #ffffff;
 }
 
 /*

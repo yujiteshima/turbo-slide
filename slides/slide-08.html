@@ -1,10 +1,30 @@
 <div class="slide-container">
-  <h1 class="text-6xl font-bold mb-8 text-slide-primary text-center">もっと知りたくなった</h1>
+  <h1 class="slide-h1 slide-mb-2 text-center bg-gradient-to-r from-slide-primary to-slide-secondary bg-clip-text text-transparent">Hotwireとは</h1>
 
-  <div class="max-w-5xl mx-auto text-3xl space-y-6">
-    <p class="text-center">違うアプローチが新鮮で面白い</p>
-    <p class="text-slide-accent font-bold text-center text-4xl">どうやって動いているんだろう？</p>
+  <div class="text-left slide-max-w-6xl mx-auto slide-space-y-2">
+    <div class="bg-slide-accent/10 slide-p-3 rounded-xl border-2 border-slide-accent">
+      <h2 class="slide-h2 text-slide-accent slide-mb-1">HTML Over The Wire</h2>
+      <p class="slide-caption">37signalsが開発した技術スイートの総称</p>
+    </div>
 
-    <p class="text-5xl text-slide-accent font-bold text-center mt-8">ソース読みました</p>
+    <div class="slide-space-y-2">
+      <h2 class="slide-h2 text-slide-secondary">比較: 従来のSPA vs Hotwire</h2>
+      <div class="grid grid-cols-2 slide-gap-2 slide-caption">
+        <div class="bg-white/5 slide-p-2 rounded-lg">
+          <p class="text-red-400 font-bold slide-mb-1">従来</p>
+          <p>サーバー → JSON → クライアントでレンダリング</p>
+        </div>
+        <div class="bg-slide-primary/10 slide-p-2 rounded-lg border-2 border-slide-primary">
+          <p class="text-slide-primary font-bold slide-mb-1">Hotwire</p>
+          <p>サーバー → HTML → そのまま画面に反映</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-slide-primary/15 slide-p-3 rounded-xl border-l-4 border-slide-primary">
+      <p class="slide-body">
+        <span class="text-slide-primary font-bold">シンプルさを追求した、SPAの代替アプローチ</span>
+      </p>
+    </div>
   </div>
 </div>

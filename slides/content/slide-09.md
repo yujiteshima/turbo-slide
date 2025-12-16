@@ -1,18 +1,16 @@
-## slide-09: 技術概要
-type: tech-overview
+---
+type: insights
+---
 
-# Hotwireの技術スタック
+# 今年の良かったこと
 
-### 左カラム: Turbo
-#### Drive
-- body入れ替え
-- SWR型キャッシュ
+## OSS活動を始めた
 
-#### Frames
-- 部分更新
+- LTをきっかけに継続できた
+- LTまでに **10 Pull Requests**
 
-#### Streams
-- SSE/WebSocketでサーバープッシュ
+### Merged
+hotwire / ruby / rails / fastapi
 
-### 右カラム: Stimulus
-画面遷移以外のJSを整理
+### PR提出中
+react / nextjs

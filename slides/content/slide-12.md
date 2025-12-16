@@ -1,10 +1,16 @@
-## slide-12: コード紹介
-type: code-showcase
+---
+type: promotion
+---
 
-# Turbo Slideの実装
+# 宣伝
 
-## シンプルな構成
-Turbo Framesでスライドをページング
+![コミュニティ画像](/images/mokumoku.png)
 
-![layout.html](/images/turbo-slide-layout_html.png)
-![server.js](/images/turbo-slide-server_js.png)
+## Nagoya Frontend User Group
+
+- 活動：定期的なもくもく会・LT会
+- 場所：名古屋 / オンライン
+
+**ぜひ遊びに来てください！**
+
+![QRコード](/images/qr-community.png)

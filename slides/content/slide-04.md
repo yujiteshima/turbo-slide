@@ -1,14 +1,11 @@
-## slide-04: 比較スライド
-type: comparison
+---
+type: content
+---
 
-# SPAとHotwireの比較
+# きっかけ
 
-### 左カラム: 従来のSPA
-- サーバーからJSONを取得
-- クライアントサイドでレンダリング
-- 複雑な状態管理が必要
+## Kaigi on Rails 2025
 
-### 右カラム: Hotwire
-- サーバーからHTMLを取得
-- そのまま画面に反映
-- シンプルな実装
+- Hotwire に惹かれた
+- 「仕組みをちゃんと理解したい」と思った
+- 11/28 に Hotwire の内容で LT する機会があった

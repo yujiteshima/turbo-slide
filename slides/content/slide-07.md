@@ -1,6 +1,13 @@
-## slide-07: 引用・強調
-type: quote
+---
+type: statement
+---
 
-# 設計思想
+# 転機：LT駆動OSSコントリビュート
 
-> HTMLをサーバーから直接受け取り、そのまま画面に反映する。それがHotwireの哲学です。
+LTで「Issueに回答しました」「PR出しました」って言いたい
+
+↓ やってみた
+
+- Issueへの回答
+- 再現プロジェクトの作成
+- 修正 Pull Request の作成

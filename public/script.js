@@ -23,6 +23,8 @@
     const scale = Math.min(scaleX, scaleY);
 
     slide.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    // スケール適用後に表示
+    slide.classList.add('scaled');
   }
 
   if (document.readyState === 'loading') {

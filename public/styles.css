@@ -143,6 +143,14 @@ turbo-frame#slide-content {
 
   /* 背景 */
   background: #ffffff;
+
+  /* スケール適用前は非表示（ズームイン効果を防ぐ） */
+  opacity: 0;
+  transition: opacity 0.1s ease-out;
+}
+
+.slide.scaled {
+  opacity: 1;
 }
 
 /*

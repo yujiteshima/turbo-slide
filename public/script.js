@@ -36,13 +36,13 @@
   document.addEventListener('fullscreenchange', () => setTimeout(scaleSlide, 100));
 })();
 
-// 10分カウントダウンタイマー + プログレスバー更新
+// 5分カウントダウンタイマー + プログレスバー更新
 (function startTimer() {
   const timerEl = document.getElementById("timer");
   const timerProgressEl = document.getElementById("timer-progress");
   if (!timerEl) return;
 
-  const totalTime = 10 * 60; // 600秒
+  const totalTime = 5 * 60; // 300秒
   let remaining = totalTime;
 
   function renderTime() {

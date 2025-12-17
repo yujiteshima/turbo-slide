@@ -5,15 +5,16 @@
 /* スライド専用カスタムクラス */
 @layer components {
   /* デフォルト: 上部固定レイアウト（通常のコンテンツスライド用） */
+  /* 固定px値を使用（Transform Scaleで均一にスケールされる） */
   .slide-container {
     @apply w-full h-full flex flex-col justify-start items-center overflow-hidden;
-    padding: clamp(1.5rem, 3vh, 3rem) clamp(1rem, 2vw, 2rem) clamp(0.75rem, 2vh, 1.5rem);
+    padding: 0;
   }
 
   /* タイトルスライド用: 中央揃え */
   .slide-container-center {
     @apply w-full h-full flex flex-col justify-center items-center overflow-hidden;
-    padding: clamp(1rem, 2vh, 2rem);
+    padding: 0;
   }
 
   /* タイトル共通スタイル */

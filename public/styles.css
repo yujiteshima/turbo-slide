@@ -106,11 +106,10 @@ body {
 /* turbo-frame要素のスタイリング */
 turbo-frame#slide-content {
   display: block;
-  flex: 1 1 auto;
+  flex: 1 1 0; /* flexboxに高さを自動計算させる */
   overflow: hidden;
   position: relative;
   width: 100%;
-  height: calc(100vh - 60px); /* top-barの高さを引いた残り全体 */
   min-height: 0;
 }
 

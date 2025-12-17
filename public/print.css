@@ -70,6 +70,7 @@
   transform: none !important;
   width: 100% !important;
   height: 100% !important;
+  opacity: 1 !important; /* styles.cssのopacity: 0を上書き */
 }
 
 /* スライドコンテナの調整 */

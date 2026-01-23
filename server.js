@@ -43,7 +43,9 @@ const clients = [];
 // ディレクトリパスを設定から取得
 const SLIDES_DIR = path.resolve(__dirname, config.slidesDir);
 const IMAGES_DIR = path.resolve(__dirname, config.imagesDir);
-const IMPORTED_DIR = path.join(SLIDES_DIR, "imported");
+const DECKS_DIR = path.join(SLIDES_DIR, "decks");
+// 後方互換性: IMPORTED_DIRはDECKS_DIRを参照
+const IMPORTED_DIR = DECKS_DIR;
 
 // PDF→画像変換
 async function convertPdfToImages(pdfPath, outputDir) {
@@ -79,25 +81,28 @@ function needsReconvert(pdfPath, outputDir) {
 
 // インポートデッキの初期化（サーバー起動時にPDFを変換）
 async function initializeImportedDecks() {
-  if (!fs.existsSync(IMPORTED_DIR)) {
-    fs.mkdirSync(IMPORTED_DIR, { recursive: true });
+  if (!fs.existsSync(DECKS_DIR)) {
+    fs.mkdirSync(DECKS_DIR, { recursive: true });
     return;
   }
 
-  const files = fs.readdirSync(IMPORTED_DIR);
-  for (const file of files) {
-    if (file.endsWith(".pdf")) {
-      const deckName = file.replace(".pdf", "");
-      const pdfPath = path.join(IMPORTED_DIR, file);
-      const outputDir = path.join(IMPORTED_DIR, deckName);
+  // 各デッキディレクトリ内のsource.pdfを検索
+  const entries = fs.readdirSync(DECKS_DIR, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
 
-      if (needsReconvert(pdfPath, outputDir)) {
-        console.log(`📄 Converting ${file} to images...`);
+    const deckName = entry.name;
+    const deckDir = path.join(DECKS_DIR, deckName);
+    const sourcePdfPath = path.join(deckDir, "source.pdf");
+
+    if (fs.existsSync(sourcePdfPath)) {
+      if (needsReconvert(sourcePdfPath, deckDir)) {
+        console.log(`📄 Converting ${deckName}/source.pdf to images...`);
         try {
-          const slideCount = await convertPdfToImages(pdfPath, outputDir);
+          const slideCount = await convertPdfToImages(sourcePdfPath, deckDir);
           console.log(`   ✅ Created ${slideCount} slides in ${deckName}/`);
         } catch (error) {
-          console.error(`   ❌ Failed to convert ${file}:`, error.message);
+          console.error(`   ❌ Failed to convert ${deckName}/source.pdf:`, error.message);
         }
       }
     }
@@ -131,7 +136,7 @@ function loadImportedSlide(deckName, index) {
   if (fs.existsSync(filePath)) {
     return `
 <div class="imported-slide-container">
-  <img src="/imported/${deckName}/slide-${paddedIndex}.png"
+  <img src="/decks/${deckName}/slide-${paddedIndex}.png"
        class="imported-slide-image"
        alt="Slide ${index}" />
 </div>`;
@@ -141,26 +146,31 @@ function loadImportedSlide(deckName, index) {
 
 // 静的ファイル配信
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/images", express.static(IMAGES_DIR));
+app.use("/images", express.static(path.join(DECKS_DIR, "default", "images")));
 // サンプルスライドの画像も配信
 app.use("/samples", express.static(path.join(__dirname, "samples")));
-// インポートスライドの画像を配信
-app.use("/imported", express.static(IMPORTED_DIR));
+// デッキディレクトリの画像を配信
+app.use("/decks", express.static(DECKS_DIR));
+// 後方互換性: /imported も /decks にマッピング
+app.use("/imported", express.static(DECKS_DIR));
 app.use(express.json());
+
+// デフォルトデッキのディレクトリ
+const DEFAULT_DECK_DIR = path.join(DECKS_DIR, "default");
 
 // スライド数を動的に取得
 function getSlideCount() {
-  if (!fs.existsSync(SLIDES_DIR)) {
+  if (!fs.existsSync(DEFAULT_DECK_DIR)) {
     return 0;
   }
-  const files = fs.readdirSync(SLIDES_DIR);
+  const files = fs.readdirSync(DEFAULT_DECK_DIR);
   return files.filter(f => f.match(/^slide-\d+\.html$/)).length;
 }
 
 // スライドHTMLを読み込み（.slideラッパーで包む）
 function loadSlide(index) {
   const fileName = `slide-${String(index).padStart(2, "0")}.html`;
-  const filePath = path.join(SLIDES_DIR, fileName);
+  const filePath = path.join(DEFAULT_DECK_DIR, fileName);
 
   if (!fs.existsSync(filePath)) {
     return null;
@@ -225,25 +235,8 @@ app.get("/events", (req, res) => {
 function broadcastSlideChange(slideId) {
   currentSlide = slideId;
 
-  const slideContent = loadSlide(slideId);
-  if (!slideContent) {
-    return;
-  }
-
-  const navButtons = renderNavButtons(slideId);
-  const turboStream = `
-    <turbo-stream action="replace" target="slide-content">
-      <template>
-        <turbo-frame id="slide-content">
-          ${slideContent}
-          <div class="nav" style="display: none;">
-            ${navButtons}
-          </div>
-        </turbo-frame>
-      </template>
-    </turbo-stream>
-  `;
-
+  // SSEでスライドIDだけをブロードキャスト
+  // ビューアー側が自分でスライドをフェッチする
   clients.forEach((client) => {
     try {
       client.write(`data: ${slideId}\n\n`);
@@ -257,6 +250,24 @@ function broadcastSlideChange(slideId) {
 app.post("/api/slide/:id", (req, res) => {
   const slideId = parseInt(req.params.id, 10);
   const totalSlides = getSlideCount();
+
+  if (isNaN(slideId) || slideId < 1 || slideId > totalSlides) {
+    return res.status(400).json({ error: "Invalid slide ID" });
+  }
+
+  broadcastSlideChange(slideId);
+  res.json({ success: true, currentSlide: slideId });
+});
+
+// デッキ用: スライド変更APIエンドポイント
+app.post("/api/deck/:deckName/slide/:id", (req, res) => {
+  const deckName = req.params.deckName;
+  const slideId = parseInt(req.params.id, 10);
+  const totalSlides = getImportedSlideCount(deckName);
+
+  if (!getImportedDecks().includes(deckName)) {
+    return res.status(404).json({ error: "Deck not found" });
+  }
 
   if (isNaN(slideId) || slideId < 1 || slideId > totalSlides) {
     return res.status(400).json({ error: "Invalid slide ID" });
@@ -622,11 +633,21 @@ async function startServer() {
     console.log(`   Total slides: ${totalSlides}`);
     console.log(`   Timer: ${config.timer} seconds`);
 
+    if (totalSlides > 0) {
+      console.log(`\n📊 Default deck:`);
+      console.log(`   Slide:     http://localhost:${PORT}/slide/1`);
+      console.log(`   Presenter: http://localhost:${PORT}/presenter/1`);
+      console.log(`   Viewer:    http://localhost:${PORT}/viewer`);
+    }
+
     if (importedDecks.length > 0) {
       console.log(`\n📁 Imported decks:`);
       importedDecks.forEach(deck => {
         const count = getImportedSlideCount(deck);
-        console.log(`   - ${deck}: ${count} slides → http://localhost:${PORT}/deck/${deck}`);
+        console.log(`   - ${deck}: ${count} slides`);
+        console.log(`     Slide:     http://localhost:${PORT}/deck/${deck}`);
+        console.log(`     Presenter: http://localhost:${PORT}/deck/${deck}/presenter`);
+        console.log(`     Viewer:    http://localhost:${PORT}/deck/${deck}/viewer`);
       });
     }
 

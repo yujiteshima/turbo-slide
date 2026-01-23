@@ -33,6 +33,26 @@ export class ApiController {
   };
 
   /**
+   * デッキスライド変更API
+   * POST /api/deck/:deckName/slide/:id
+   */
+  changeDeckSlide = (req, res) => {
+    const deckName = req.params.deckName;
+    const slideId = parseInt(req.params.id, 10);
+
+    if (!this.deckService.deckExists(deckName)) {
+      return res.status(404).json({ error: "Deck not found" });
+    }
+
+    if (!this.deckService.isValidSlideId(deckName, slideId)) {
+      return res.status(400).json({ error: "Invalid slide ID" });
+    }
+
+    this.sseService.broadcastSlideChange(slideId);
+    res.json({ success: true, currentSlide: slideId });
+  };
+
+  /**
    * デッキ一覧API
    * GET /api/decks
    */

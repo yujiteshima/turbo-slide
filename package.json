@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Turbo Frames-based slide deck with countdown timer and keyboard navigation for presentations.",
   "main": "server.js",
+  "type": "module",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "start": "node server.js",
@@ -12,7 +13,8 @@
     "build:css:prod": "npx tailwindcss -i ./public/tailwind-input.css -o ./public/tailwind.css --minify"
   },
   "dependencies": {
-    "express": "^4.19.0"
+    "express": "^4.19.0",
+    "pdf-to-img": "^5.0.0"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.18"

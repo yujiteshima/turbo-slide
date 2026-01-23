@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="top-bar">
-    <div>LT@frontend.stmn</div>
+    <div>{{DECK_TITLE}}</div>
     <div class="top-bar-right">
       <div class="progress-indicators">
         <div class="progress-item">
@@ -17,7 +17,7 @@
           <div class="progress-bar-container">
             <div class="progress-bar" id="slide-progress"></div>
           </div>
-          <div class="progress-text" id="slide-text">1/23</div>
+          <div class="progress-text" id="slide-text">1/{{TOTAL_SLIDES}}</div>
         </div>
         <div class="progress-item">
           <div class="progress-label">Time</div>
@@ -39,6 +39,7 @@
     </div>
   </turbo-frame>
 
+  <script>window.TOTAL_SLIDES = {{TOTAL_SLIDES}};</script>
   <script src="/script.js"></script>
 </body>
 </html>

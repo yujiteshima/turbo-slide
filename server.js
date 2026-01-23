@@ -186,6 +186,83 @@ function loadLayout() {
   return fs.readFileSync(path.join(__dirname, "views/layout.html"), "utf-8");
 }
 
+// ホームページHTMLを読み込み
+function loadHomeTemplate() {
+  return fs.readFileSync(path.join(__dirname, "views/home.html"), "utf-8");
+}
+
+// デッキカードHTMLを生成
+function renderDeckCard(deck) {
+  const typeClass = deck.type === 'html' ? 'html' : 'pdf';
+  const title = deck.title || deck.name;
+
+  // defaultデッキは従来のURLを使用
+  const isDefault = deck.name === 'default';
+  const slideUrl = isDefault ? '/slide/1' : deck.url;
+  const presenterUrl = isDefault ? '/presenter' : `${deck.url}/presenter`;
+  const viewerUrl = isDefault ? '/viewer' : `${deck.url}/viewer`;
+
+  return `
+    <div class="deck-card">
+      <div class="deck-header">
+        <h2 class="deck-name">${title}</h2>
+        <span class="deck-type ${typeClass}">${deck.type}</span>
+      </div>
+      <div class="deck-meta">
+        <div class="deck-meta-item">
+          <span>${deck.slideCount} slides</span>
+        </div>
+      </div>
+      <div class="deck-actions">
+        <div class="deck-actions-row">
+          <a href="${slideUrl}" class="deck-btn deck-btn-primary">
+            Slide Mode
+          </a>
+          <a href="${presenterUrl}" class="deck-btn deck-btn-primary">
+            Presenter
+          </a>
+        </div>
+        <a href="${viewerUrl}" class="deck-btn deck-btn-secondary" target="_blank">
+          Viewer (別タブ)
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+// 全デッキ情報を取得
+function getAllDecksInfo() {
+  const decks = [];
+
+  // デフォルトデッキ（HTML）
+  const defaultSlideCount = getSlideCount();
+  if (defaultSlideCount > 0) {
+    decks.push({
+      name: 'default',
+      title: config.title || 'Default Deck',
+      type: 'html',
+      slideCount: defaultSlideCount,
+      url: '/slide/1'
+    });
+  }
+
+  // インポートデッキ（PDF）
+  const importedDecks = getImportedDecks();
+  importedDecks.forEach(name => {
+    if (name !== 'default') {
+      decks.push({
+        name,
+        title: name,
+        type: 'pdf',
+        slideCount: getImportedSlideCount(name),
+        url: `/deck/${name}`
+      });
+    }
+  });
+
+  return decks;
+}
+
 // ナビゲーションボタンを生成
 function renderNavButtons(currentIndex, mode = 'slide', deckName = null) {
   const totalSlides = deckName ? getImportedSlideCount(deckName) : getSlideCount();
@@ -367,14 +444,35 @@ app.get("/viewer", (req, res) => {
     .replace("{{NAV_BUTTONS}}", navButtons)
     .replace("{{DECK_TITLE}}", config.title)
     .replace("{{TOTAL_SLIDES}}", totalSlides)
+    // Viewer modeではロゴのリンクを無効化
+    .replace('<a href="/" class="deck-title-link">', '<span class="deck-title-link deck-title-disabled">')
+    .replace('</a>\n    <div class="top-bar-right">', '</span>\n    <div class="top-bar-right">')
     .replace('<script src="/script.js"></script>', `<script>window.VIEWER_MODE = true; window.CURRENT_SLIDE = ${slideId}; window.TOTAL_SLIDES = ${totalSlides};</script><script src="/script.js"></script>`);
 
   res.send(html);
 });
 
-// ルート: 最初のスライドにリダイレクト
+// ルート: ホームページ（デッキ選択）
 app.get("/", (req, res) => {
-  res.redirect("/slide/1");
+  const decks = getAllDecksInfo();
+
+  let deckCardsHtml;
+  if (decks.length === 0) {
+    deckCardsHtml = `
+      <div class="no-decks">
+        <div class="no-decks-icon">📂</div>
+        <h2>No decks found</h2>
+        <p>Add slide files to the slides/decks directory to get started.</p>
+      </div>
+    `;
+  } else {
+    deckCardsHtml = decks.map(deck => renderDeckCard(deck)).join('\n');
+  }
+
+  const template = loadHomeTemplate();
+  const html = template.replace("{{DECK_CARDS}}", deckCardsHtml);
+
+  res.send(html);
 });
 
 // スライド表示: Turbo Frame対応
@@ -567,6 +665,9 @@ app.get("/deck/:deckName/viewer", (req, res) => {
     .replace("{{NAV_BUTTONS}}", navButtons)
     .replace("{{DECK_TITLE}}", deckName)
     .replace("{{TOTAL_SLIDES}}", totalSlides)
+    // Viewer modeではロゴのリンクを無効化
+    .replace('<a href="/" class="deck-title-link">', '<span class="deck-title-link deck-title-disabled">')
+    .replace('</a>\n    <div class="top-bar-right">', '</span>\n    <div class="top-bar-right">')
     .replace('<script src="/script.js"></script>', `<script>window.VIEWER_MODE = true; window.DECK_NAME = "${deckName}"; window.CURRENT_SLIDE = ${slideId}; window.TOTAL_SLIDES = ${totalSlides};</script><script src="/script.js"></script>`);
 
   res.send(html);

@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Turbo Slide - Deck Selection</title>
+  <script type="module" src="https://unpkg.com/@hotwired/turbo@8.0.4/dist/turbo.es2017-umd.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/design-tokens.css">
+  <link rel="stylesheet" href="/tailwind.css">
+  <style>
+    .home-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      padding: 2rem;
+    }
+
+    .home-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .home-title {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .home-subtitle {
+      color: #94a3b8;
+      font-size: 1.25rem;
+    }
+
+    .decks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .deck-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .deck-card:hover {
+      border-color: #3b82f6;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+    }
+
+    .deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .deck-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #f1f5f9;
+    }
+
+    .deck-type {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .deck-type.html {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+    }
+
+    .deck-type.pdf {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .deck-meta {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .deck-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .deck-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .deck-actions-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .deck-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+
+    .deck-btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+    }
+
+    .deck-btn-primary:hover {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      transform: translateY(-2px);
+    }
+
+    .deck-btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .deck-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+    }
+
+    .no-decks {
+      text-align: center;
+      color: #64748b;
+      padding: 4rem 2rem;
+    }
+
+    .no-decks-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="home-container">
+    <header class="home-header">
+      <h1 class="home-title">Turbo Slide</h1>
+      <p class="home-subtitle">Select a deck to start your presentation</p>
+    </header>
+
+    <div class="decks-grid">
+      {{DECK_CARDS}}
+    </div>
+  </div>
+</body>
+</html>

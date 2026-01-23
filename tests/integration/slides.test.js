@@ -13,12 +13,14 @@ describe('Slide Routes', () => {
   });
 
   describe('GET /', () => {
-    it('redirects to /slide/1', async () => {
+    it('returns home page with deck selection', async () => {
       const response = await request(app)
         .get('/')
-        .expect(302);
+        .expect(200);
 
-      expect(response.headers.location).toBe('/slide/1');
+      expect(response.text).toContain('<!doctype html>');
+      expect(response.text).toContain('Turbo Slide');
+      expect(response.text).toContain('deck-card');
     });
   });
 
@@ -56,6 +58,35 @@ describe('Slide Routes', () => {
         .expect(302);
 
       expect(response.headers.location).toBe('/slide/1');
+    });
+
+    it('has clickable logo link to home page', async () => {
+      const response = await request(app)
+        .get('/slide/1')
+        .expect(200);
+
+      expect(response.text).toContain('<a href="/" class="deck-title-link">');
+    });
+  });
+
+  describe('GET /presenter/:id', () => {
+    it('has clickable logo link to home page', async () => {
+      const response = await request(app)
+        .get('/presenter/1')
+        .expect(200);
+
+      expect(response.text).toContain('<a href="/" class="deck-title-link">');
+    });
+  });
+
+  describe('GET /viewer', () => {
+    it('has disabled logo link (not clickable)', async () => {
+      const response = await request(app)
+        .get('/viewer')
+        .expect(200);
+
+      expect(response.text).toContain('<span class="deck-title-link deck-title-disabled">');
+      expect(response.text).not.toContain('<a href="/" class="deck-title-link">');
     });
   });
 });

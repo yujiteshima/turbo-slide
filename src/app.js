@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 
 import { loadConfig, getRootDir } from "./config/index.js";
 import { createSlideService, createDeckService, createPdfService, getSseService, getNavigationService } from "./services/index.js";
-import { createSlideController, createPresenterController, createViewerController, createDeckController, createApiController, createEventsController, createPrintController } from "./controllers/index.js";
+import { createSlideController, createPresenterController, createViewerController, createDeckController, createApiController, createEventsController, createPrintController, createHomeController } from "./controllers/index.js";
 import { createSlideRoutes, createPresenterRoutes, createViewerRoutes, createDeckRoutes, createApiRoutes, createEventsRoutes, createPrintRoutes } from "./routes/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -53,6 +53,7 @@ export function createApp(options = {}) {
   const apiController = createApiController({ slideService, deckService, sseService });
   const eventsController = createEventsController({ sseService });
   const printController = createPrintController({ slideService });
+  const homeController = createHomeController({ deckService, config });
 
   // ミドルウェア設定
   app.use(express.static(path.join(ROOT_DIR, "public")));
@@ -64,7 +65,7 @@ export function createApp(options = {}) {
   app.use(express.json());
 
   // ルート設定
-  app.get("/", slideController.redirectToFirst);
+  app.get("/", homeController.getHome);
   app.use("/slide", createSlideRoutes(slideController));
   app.use("/presenter", createPresenterRoutes(presenterController));
   app.use("/viewer", createViewerRoutes(viewerController));

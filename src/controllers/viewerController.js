@@ -74,6 +74,9 @@ export class ViewerController {
       .replace("{{NAV_BUTTONS}}", navButtons)
       .replace("{{DECK_TITLE}}", this.config.title)
       .replace("{{TOTAL_SLIDES}}", totalSlides)
+      // Viewer modeではロゴのリンクを無効化
+      .replace('<a href="/" class="deck-title-link">', '<span class="deck-title-link deck-title-disabled">')
+      .replace('</a>\n    <div class="top-bar-right">', '</span>\n    <div class="top-bar-right">')
       .replace('<script src="/script.js"></script>', `<script>window.VIEWER_MODE = true; window.CURRENT_SLIDE = ${slideId}; window.TOTAL_SLIDES = ${totalSlides};</script><script src="/script.js"></script>`);
 
     res.send(html);

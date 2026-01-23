@@ -29,6 +29,25 @@ body {
   flex-shrink: 0;
 }
 
+.deck-title-link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.deck-title-link:hover {
+  color: #3b82f6;
+}
+
+.deck-title-disabled {
+  cursor: default;
+}
+
+.deck-title-disabled:hover {
+  color: inherit;
+}
+
 .top-bar-right {
   display: flex;
   align-items: center;

@@ -1,3 +1,27 @@
+// URLからスライド情報を抽出するヘルパー関数
+function parseSlideUrl(url) {
+  // デッキURLパターン: /deck/:deckName/slide/:id または /deck/:deckName/presenter/:id
+  const deckMatch = url.match(/\/deck\/([^\/]+)\/(slide|presenter|viewer)\/(\d+)/);
+  if (deckMatch) {
+    return { deckName: deckMatch[1], mode: deckMatch[2], slideId: parseInt(deckMatch[3], 10) };
+  }
+
+  // 通常のスライドURLパターン: /slide/:id または /presenter/:id
+  const slideMatch = url.match(/\/(slide|presenter|viewer)\/(\d+)/);
+  if (slideMatch) {
+    return { deckName: null, mode: slideMatch[1], slideId: parseInt(slideMatch[2], 10) };
+  }
+
+  return null;
+}
+
+// 現在のデッキ名を取得
+function getCurrentDeckName() {
+  if (window.DECK_NAME) return window.DECK_NAME;
+  const parsed = parseSlideUrl(window.location.pathname);
+  return parsed ? parsed.deckName : null;
+}
+
 // Transform Scale: スライドを画面サイズに合わせてスケール
 (function setupSlideScale() {
   const DESIGN_WIDTH = 960;
@@ -72,32 +96,33 @@
 (function updateSlideProgress() {
   const slideProgressEl = document.getElementById("slide-progress");
   const slideTextEl = document.getElementById("slide-text");
+  const totalSlides = window.TOTAL_SLIDES || 12;
 
   function updateProgress() {
-    // まずURLから試す
-    let match = window.location.pathname.match(/\/(slide|presenter|viewer)\/(\d+)/);
+    const parsed = parseSlideUrl(window.location.pathname);
+    let currentSlide = parsed ? parsed.slideId : null;
 
     // URLにスライド番号がない場合、Turbo FrameのsrcまたはURLから取得
-    if (!match) {
+    if (!currentSlide) {
       const frame = document.getElementById('slide-content');
       if (frame && frame.src) {
-        match = frame.src.match(/\/(slide|presenter|viewer)\/(\d+)/);
+        const frameParsed = parseSlideUrl(frame.src);
+        if (frameParsed) {
+          currentSlide = frameParsed.slideId;
+        }
       }
     }
 
     // それでもない場合、クエリパラメータから取得（viewerモード用）
-    if (!match) {
+    if (!currentSlide) {
       const urlParams = new URLSearchParams(window.location.search);
       const slideParam = urlParams.get('slide');
       if (slideParam) {
-        match = [null, 'viewer', slideParam];
+        currentSlide = parseInt(slideParam, 10);
       }
     }
 
-    if (match) {
-      const currentSlide = parseInt(match[2], 10);
-      const totalSlides = 12; // スライドの総数
-
+    if (currentSlide) {
       if (slideTextEl) {
         slideTextEl.textContent = currentSlide + "/" + totalSlides;
       }
@@ -128,11 +153,10 @@
   document.addEventListener("click", function(e) {
     const link = e.target.closest('a[data-turbo-frame]');
     if (link) {
-      const match = link.href.match(/\/(slide|presenter|viewer)\/(\d+)/);
-      if (match) {
+      const parsed = parseSlideUrl(link.href);
+      if (parsed) {
         setTimeout(function() {
-          const currentSlide = parseInt(match[2], 10);
-          const totalSlides = 12;
+          const currentSlide = parsed.slideId;
 
           if (slideTextEl) {
             slideTextEl.textContent = currentSlide + "/" + totalSlides;
@@ -150,12 +174,13 @@
 // プレゼンターモード: APIを使ってスライド変更
 if (window.PRESENTER_MODE) {
   let currentSlide = window.CURRENT_SLIDE || 1;
+  const totalSlides = window.TOTAL_SLIDES || 12;
+  const deckName = getCurrentDeckName();
 
   // スライド進捗更新関数
   function updateSlideProgress(slideId) {
     const slideProgressEl = document.getElementById("slide-progress");
     const slideTextEl = document.getElementById("slide-text");
-    const totalSlides = 12;
 
     if (slideTextEl) {
       slideTextEl.textContent = slideId + "/" + totalSlides;
@@ -168,7 +193,20 @@ if (window.PRESENTER_MODE) {
 
   async function changeSlide(slideId) {
     try {
-      // APIを呼び出してブロードキャスト
+      // デッキモードの場合はAPIを呼ばずに直接遷移
+      if (deckName) {
+        const frame = document.getElementById('slide-content');
+        if (frame) {
+          window.history.pushState({}, '', `/deck/${deckName}/presenter/${slideId}`);
+          currentSlide = slideId;
+          updateSlideProgress(slideId);
+          frame.src = `/deck/${deckName}/presenter/${slideId}`;
+          frame.reload();
+        }
+        return;
+      }
+
+      // 通常モードの場合はAPIを呼び出してブロードキャスト
       const response = await fetch(`/api/slide/${slideId}`, {
         method: 'POST',
         headers: {
@@ -205,19 +243,19 @@ if (window.PRESENTER_MODE) {
     if (e.key === "ArrowRight") {
       const nextLink = document.querySelector('a[data-nav="next"]');
       if (nextLink && !nextLink.classList.contains('disabled')) {
-        const match = nextLink.href.match(/\/presenter\/(\d+)/);
-        if (match) {
+        const parsed = parseSlideUrl(nextLink.href);
+        if (parsed) {
           e.preventDefault();
-          changeSlide(parseInt(match[1], 10));
+          changeSlide(parsed.slideId);
         }
       }
     } else if (e.key === "ArrowLeft") {
       const prevLink = document.querySelector('a[data-nav="prev"]');
       if (prevLink && !prevLink.classList.contains('disabled')) {
-        const match = prevLink.href.match(/\/presenter\/(\d+)/);
-        if (match) {
+        const parsed = parseSlideUrl(prevLink.href);
+        if (parsed) {
           e.preventDefault();
-          changeSlide(parseInt(match[1], 10));
+          changeSlide(parsed.slideId);
         }
       }
     }
@@ -227,10 +265,10 @@ if (window.PRESENTER_MODE) {
   document.addEventListener('click', function(e) {
     const link = e.target.closest('a[data-nav]');
     if (link && !link.classList.contains('disabled')) {
-      const match = link.href.match(/\/presenter\/(\d+)/);
-      if (match) {
+      const parsed = parseSlideUrl(link.href);
+      if (parsed) {
         e.preventDefault();
-        changeSlide(parseInt(match[1], 10));
+        changeSlide(parsed.slideId);
       }
     }
   });
@@ -239,12 +277,13 @@ if (window.PRESENTER_MODE) {
 // ビューアーモード: SSEでスライド変更を受信
 if (window.VIEWER_MODE) {
   let currentSlideId = window.CURRENT_SLIDE || 1;
+  const totalSlides = window.TOTAL_SLIDES || 12;
+  const deckName = getCurrentDeckName();
 
   // スライド進捗更新関数
   function updateSlideProgress(slideId) {
     const slideProgressEl = document.getElementById("slide-progress");
     const slideTextEl = document.getElementById("slide-text");
-    const totalSlides = 12;
 
     if (slideTextEl) {
       slideTextEl.textContent = slideId + "/" + totalSlides;
@@ -264,47 +303,55 @@ if (window.VIEWER_MODE) {
     navDiv.style.display = 'none';
   }
 
-  // SSE接続
-  const eventSource = new EventSource('/events');
+  // デッキモードでない場合のみSSE接続
+  if (!deckName) {
+    // SSE接続
+    const eventSource = new EventSource('/events');
 
-  eventSource.onmessage = function(event) {
-    const slideId = parseInt(event.data, 10);
+    eventSource.onmessage = function(event) {
+      const slideId = parseInt(event.data, 10);
 
-    // 現在のスライドと異なる場合のみ更新
-    if (slideId !== currentSlideId) {
-      // Turbo Frameを使ってスライドコンテンツを更新
-      const frame = document.getElementById('slide-content');
-      if (frame) {
-        // URLを更新
-        window.history.pushState({}, '', `/viewer?slide=${slideId}`);
-        currentSlideId = slideId;
+      // 現在のスライドと異なる場合のみ更新
+      if (slideId !== currentSlideId) {
+        // Turbo Frameを使ってスライドコンテンツを更新
+        const frame = document.getElementById('slide-content');
+        if (frame) {
+          // URLを更新
+          window.history.pushState({}, '', `/viewer?slide=${slideId}`);
+          currentSlideId = slideId;
 
-        // スライド進捗を更新
-        updateSlideProgress(slideId);
+          // スライド進捗を更新
+          updateSlideProgress(slideId);
 
-        // Turbo Frameのsrcを設定して自動リロード
-        frame.src = `/viewer?slide=${slideId}`;
-        frame.reload();
+          // Turbo Frameのsrcを設定して自動リロード
+          frame.src = `/viewer?slide=${slideId}`;
+          frame.reload();
+        }
       }
-    }
-  };
+    };
 
-  eventSource.onerror = function() {
-    // エラーは無視
-  };
+    eventSource.onerror = function() {
+      // エラーは無視
+    };
+  }
 }
 
 // 通常モード: ← / → キーでスライド移動
 if (!window.PRESENTER_MODE && !window.VIEWER_MODE) {
+  const deckName = getCurrentDeckName();
+
   // ナビゲーションリンククリック時にURLを更新
   document.addEventListener("click", function(e) {
     const link = e.target.closest('a[data-nav]');
     if (link && !link.classList.contains('disabled')) {
-      const match = link.href.match(/\/(slide|presenter|viewer)\/(\d+)/);
-      if (match) {
+      const parsed = parseSlideUrl(link.href);
+      if (parsed) {
         // URLを更新してから、Turbo Frameに処理を任せる
-        const slideId = parseInt(match[2], 10);
-        window.history.pushState({}, '', `/slide/${slideId}`);
+        if (deckName) {
+          window.history.pushState({}, '', `/deck/${deckName}/slide/${parsed.slideId}`);
+        } else {
+          window.history.pushState({}, '', `/slide/${parsed.slideId}`);
+        }
       }
     }
   });
@@ -313,20 +360,26 @@ if (!window.PRESENTER_MODE && !window.VIEWER_MODE) {
     if (e.key === "ArrowRight") {
       const nextLink = document.querySelector('a[data-nav="next"]');
       if (nextLink && !nextLink.classList.contains('disabled')) {
-        const match = nextLink.href.match(/\/(slide|presenter|viewer)\/(\d+)/);
-        if (match) {
-          const slideId = parseInt(match[2], 10);
-          window.history.pushState({}, '', `/slide/${slideId}`);
+        const parsed = parseSlideUrl(nextLink.href);
+        if (parsed) {
+          if (deckName) {
+            window.history.pushState({}, '', `/deck/${deckName}/slide/${parsed.slideId}`);
+          } else {
+            window.history.pushState({}, '', `/slide/${parsed.slideId}`);
+          }
           nextLink.click();
         }
       }
     } else if (e.key === "ArrowLeft") {
       const prevLink = document.querySelector('a[data-nav="prev"]');
       if (prevLink && !prevLink.classList.contains('disabled')) {
-        const match = prevLink.href.match(/\/(slide|presenter|viewer)\/(\d+)/);
-        if (match) {
-          const slideId = parseInt(match[2], 10);
-          window.history.pushState({}, '', `/slide/${slideId}`);
+        const parsed = parseSlideUrl(prevLink.href);
+        if (parsed) {
+          if (deckName) {
+            window.history.pushState({}, '', `/deck/${deckName}/slide/${parsed.slideId}`);
+          } else {
+            window.history.pushState({}, '', `/slide/${parsed.slideId}`);
+          }
           prevLink.click();
         }
       }

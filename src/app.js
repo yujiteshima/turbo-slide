@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
  * Expressアプリケーションを作成
  * @param {Object} [options] - オプション
  * @param {string} [options.configPath] - 設定ファイルのパス
+ * @param {string} [options.decksDir] - デッキディレクトリのパス（テスト用）
  * @returns {Object} { app, config, services, initialize }
  */
 export function createApp(options = {}) {
@@ -24,15 +25,15 @@ export function createApp(options = {}) {
   // 設定読み込み
   const config = loadConfig(options.configPath);
 
-  // ディレクトリパスを設定から取得
+  // ディレクトリパスを設定から取得（オプションで上書き可能）
   const SLIDES_DIR = path.resolve(ROOT_DIR, config.slidesDir);
   const IMAGES_DIR = path.resolve(ROOT_DIR, config.imagesDir);
-  const IMPORTED_DIR = path.join(SLIDES_DIR, "imported");
+  const DECKS_DIR = options.decksDir || path.join(SLIDES_DIR, "decks");
 
   // サービス作成
-  const slideService = createSlideService(SLIDES_DIR);
-  const deckService = createDeckService(IMPORTED_DIR);
-  const pdfService = createPdfService(IMPORTED_DIR);
+  const slideService = createSlideService(path.join(DECKS_DIR, "default"));
+  const deckService = createDeckService(DECKS_DIR);
+  const pdfService = createPdfService(DECKS_DIR);
   const sseService = getSseService();
   const navigationService = getNavigationService();
 
@@ -55,9 +56,11 @@ export function createApp(options = {}) {
 
   // ミドルウェア設定
   app.use(express.static(path.join(ROOT_DIR, "public")));
-  app.use("/images", express.static(IMAGES_DIR));
+  app.use("/images", express.static(path.join(DECKS_DIR, "default", "images")));
   app.use("/samples", express.static(path.join(ROOT_DIR, "samples")));
-  app.use("/imported", express.static(IMPORTED_DIR));
+  app.use("/decks", express.static(DECKS_DIR));
+  // 後方互換性: /imported も /decks にマッピング
+  app.use("/imported", express.static(DECKS_DIR));
   app.use(express.json());
 
   // ルート設定

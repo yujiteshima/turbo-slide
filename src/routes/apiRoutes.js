@@ -12,6 +12,9 @@ export function createApiRoutes(apiController) {
   // POST /api/slide/:id - スライド変更
   router.post("/slide/:id", apiController.changeSlide);
 
+  // POST /api/deck/:deckName/slide/:id - デッキスライド変更
+  router.post("/deck/:deckName/slide/:id", apiController.changeDeckSlide);
+
   // GET /api/decks - デッキ一覧
   router.get("/decks", apiController.getDecks);
 

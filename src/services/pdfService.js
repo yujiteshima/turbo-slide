@@ -9,10 +9,10 @@ import path from "path";
  */
 export class PdfService {
   /**
-   * @param {string} importedDir - インポートデッキのディレクトリパス
+   * @param {string} decksDir - デッキのディレクトリパス (slides/decks)
    */
-  constructor(importedDir) {
-    this.importedDir = path.resolve(importedDir);
+  constructor(decksDir) {
+    this.decksDir = path.resolve(decksDir);
   }
 
   /**
@@ -62,32 +62,41 @@ export class PdfService {
   }
 
   /**
-   * インポートデッキを初期化（サーバー起動時にPDFを変換）
+   * デッキを初期化（サーバー起動時にPDFを変換）
+   * 各デッキディレクトリ内の source.pdf を検索して変換
    * @returns {Promise<Object[]>} 変換結果の配列
    */
   async initializeImportedDecks() {
     const results = [];
 
-    if (!fs.existsSync(this.importedDir)) {
-      fs.mkdirSync(this.importedDir, { recursive: true });
+    if (!fs.existsSync(this.decksDir)) {
+      fs.mkdirSync(this.decksDir, { recursive: true });
       return results;
     }
 
-    const files = fs.readdirSync(this.importedDir);
-    for (const file of files) {
-      if (file.endsWith(".pdf")) {
-        const deckName = file.replace(".pdf", "");
-        const pdfPath = path.join(this.importedDir, file);
-        const outputDir = path.join(this.importedDir, deckName);
+    // 各デッキディレクトリをスキャン
+    const entries = fs.readdirSync(this.decksDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
 
-        if (this.needsReconvert(pdfPath, outputDir)) {
-          console.log(`📄 Converting ${file} to images...`);
+      const deckName = entry.name;
+      const deckDir = path.join(this.decksDir, deckName);
+      const sourcePdfPath = path.join(deckDir, "source.pdf");
+
+      // source.pdf が存在する場合のみ変換
+      if (fs.existsSync(sourcePdfPath)) {
+        if (this.needsReconvert(sourcePdfPath, deckDir)) {
+          console.log(`📄 Converting ${deckName}/source.pdf to images...`);
           try {
-            const slideCount = await this.convertPdfToImages(pdfPath, outputDir);
+            const slideCount = await this.convertPdfToImages(sourcePdfPath, deckDir);
             console.log(`   ✅ Created ${slideCount} slides in ${deckName}/`);
+
+            // deck.jsonのslideCountを更新
+            await this.updateDeckMetadata(deckDir, slideCount);
+
             results.push({ deckName, slideCount, success: true });
           } catch (error) {
-            console.error(`   ❌ Failed to convert ${file}:`, error.message);
+            console.error(`   ❌ Failed to convert ${deckName}/source.pdf:`, error.message);
             results.push({ deckName, error: error.message, success: false });
           }
         } else {
@@ -100,6 +109,29 @@ export class PdfService {
   }
 
   /**
+   * deck.jsonのslideCountを更新
+   * @param {string} deckDir - デッキディレクトリのパス
+   * @param {number} slideCount - スライド数
+   */
+  async updateDeckMetadata(deckDir, slideCount) {
+    const metadataPath = path.join(deckDir, "deck.json");
+    let metadata = {};
+
+    if (fs.existsSync(metadataPath)) {
+      try {
+        metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
+      } catch (error) {
+        // パースエラーの場合は新規作成
+      }
+    }
+
+    metadata.slideCount = slideCount;
+    metadata.type = "pdf";
+
+    await fsPromises.writeFile(metadataPath, JSON.stringify(metadata, null, 2));
+  }
+
+  /**
    * 単一のPDFをインポート
    * @param {string} pdfPath - PDFファイルのパス
    * @param {string} [deckName] - デッキ名（省略時はファイル名から生成）
@@ -107,10 +139,17 @@ export class PdfService {
    */
   async importPdf(pdfPath, deckName = null) {
     const name = deckName || path.basename(pdfPath, ".pdf");
-    const outputDir = path.join(this.importedDir, name);
+    const outputDir = path.join(this.decksDir, name);
 
     try {
-      const slideCount = await this.convertPdfToImages(pdfPath, outputDir);
+      // source.pdfとしてコピー
+      await fsPromises.mkdir(outputDir, { recursive: true });
+      const destPdfPath = path.join(outputDir, "source.pdf");
+      await fsPromises.copyFile(pdfPath, destPdfPath);
+
+      const slideCount = await this.convertPdfToImages(destPdfPath, outputDir);
+      await this.updateDeckMetadata(outputDir, slideCount);
+
       return { deckName: name, slideCount, success: true };
     } catch (error) {
       return { deckName: name, error: error.message, success: false };
@@ -120,11 +159,11 @@ export class PdfService {
 
 /**
  * ファクトリ関数
- * @param {string} importedDir - インポートデッキのディレクトリパス
+ * @param {string} decksDir - デッキのディレクトリパス
  * @returns {PdfService} PDFサービスインスタンス
  */
-export function createPdfService(importedDir) {
-  return new PdfService(importedDir);
+export function createPdfService(decksDir) {
+  return new PdfService(decksDir);
 }
 
 export default {

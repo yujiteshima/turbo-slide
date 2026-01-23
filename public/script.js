@@ -193,15 +193,25 @@ if (window.PRESENTER_MODE) {
 
   async function changeSlide(slideId) {
     try {
-      // デッキモードの場合はAPIを呼ばずに直接遷移
+      // デッキモードの場合
       if (deckName) {
-        const frame = document.getElementById('slide-content');
-        if (frame) {
-          window.history.pushState({}, '', `/deck/${deckName}/presenter/${slideId}`);
-          currentSlide = slideId;
-          updateSlideProgress(slideId);
-          frame.src = `/deck/${deckName}/presenter/${slideId}`;
-          frame.reload();
+        // APIを呼び出してSSEでブロードキャスト
+        const response = await fetch(`/api/deck/${deckName}/slide/${slideId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const frame = document.getElementById('slide-content');
+          if (frame) {
+            window.history.pushState({}, '', `/deck/${deckName}/presenter/${slideId}`);
+            currentSlide = slideId;
+            updateSlideProgress(slideId);
+            frame.src = `/deck/${deckName}/presenter/${slideId}`;
+            frame.reload();
+          }
         }
         return;
       }
@@ -303,37 +313,39 @@ if (window.VIEWER_MODE) {
     navDiv.style.display = 'none';
   }
 
-  // デッキモードでない場合のみSSE接続
-  if (!deckName) {
-    // SSE接続
-    const eventSource = new EventSource('/events');
+  // SSE接続
+  const eventSource = new EventSource('/events');
 
-    eventSource.onmessage = function(event) {
-      const slideId = parseInt(event.data, 10);
+  eventSource.onmessage = function(event) {
+    const slideId = parseInt(event.data, 10);
 
-      // 現在のスライドと異なる場合のみ更新
-      if (slideId !== currentSlideId) {
-        // Turbo Frameを使ってスライドコンテンツを更新
-        const frame = document.getElementById('slide-content');
-        if (frame) {
-          // URLを更新
+    // 現在のスライドと異なる場合のみ更新
+    if (slideId !== currentSlideId) {
+      // Turbo Frameを使ってスライドコンテンツを更新
+      const frame = document.getElementById('slide-content');
+      if (frame) {
+        // デッキモードかどうかでURLを分岐
+        if (deckName) {
+          window.history.pushState({}, '', `/deck/${deckName}/viewer?slide=${slideId}`);
+          frame.src = `/deck/${deckName}/viewer?slide=${slideId}`;
+        } else {
           window.history.pushState({}, '', `/viewer?slide=${slideId}`);
-          currentSlideId = slideId;
-
-          // スライド進捗を更新
-          updateSlideProgress(slideId);
-
-          // Turbo Frameのsrcを設定して自動リロード
           frame.src = `/viewer?slide=${slideId}`;
-          frame.reload();
         }
-      }
-    };
+        currentSlideId = slideId;
 
-    eventSource.onerror = function() {
-      // エラーは無視
-    };
-  }
+        // スライド進捗を更新
+        updateSlideProgress(slideId);
+
+        // Turbo Frameのsrcを設定して自動リロード
+        frame.reload();
+      }
+    }
+  };
+
+  eventSource.onerror = function() {
+    // エラーは無視
+  };
 }
 
 // 通常モード: ← / → キーでスライド移動

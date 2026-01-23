@@ -110,6 +110,27 @@ describe('SseService', () => {
       expect(mockRes2.write).toHaveBeenCalledWith('data: 7\n\n');
     });
 
+    it('broadcasts any valid slide ID without validation', () => {
+      const mockRes = {
+        setHeader: vi.fn(),
+        write: vi.fn()
+      };
+
+      sseService.addClient(mockRes);
+      mockRes.write.mockClear();
+
+      // Should broadcast any slide ID (validation is done by API layer)
+      sseService.broadcastSlideChange(13);
+      expect(sseService.getCurrentSlide()).toBe(13);
+      expect(mockRes.write).toHaveBeenCalledWith('data: 13\n\n');
+
+      mockRes.write.mockClear();
+
+      sseService.broadcastSlideChange(100);
+      expect(sseService.getCurrentSlide()).toBe(100);
+      expect(mockRes.write).toHaveBeenCalledWith('data: 100\n\n');
+    });
+
     it('handles write errors gracefully', () => {
       // First add a client that works normally
       const mockRes = {

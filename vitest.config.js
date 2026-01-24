@@ -7,5 +7,8 @@ export default defineConfig({
     include: ['tests/unit/**/*.test.js', 'tests/integration/**/*.test.js'],
     exclude: ['tests/e2e/**/*', 'node_modules/**/*'],
     testTimeout: 10000,
+    environmentMatchGlobs: [
+      ['tests/unit/controllers/**/*.test.js', 'jsdom'],
+    ],
   }
 });

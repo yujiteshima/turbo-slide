@@ -29,11 +29,12 @@ export function createApp(options = {}) {
   const SLIDES_DIR = path.resolve(ROOT_DIR, config.slidesDir);
   const IMAGES_DIR = path.resolve(ROOT_DIR, config.imagesDir);
   const DECKS_DIR = options.decksDir || path.join(SLIDES_DIR, "decks");
+  const IMPORT_DIR = options.importDir || path.join(SLIDES_DIR, "import");
 
   // サービス作成
   const slideService = createSlideService(path.join(DECKS_DIR, "default"));
   const deckService = createDeckService(DECKS_DIR);
-  const pdfService = createPdfService(DECKS_DIR);
+  const pdfService = createPdfService(DECKS_DIR, IMPORT_DIR);
   const sseService = getSseService();
   const navigationService = getNavigationService();
 
@@ -83,6 +84,10 @@ export function createApp(options = {}) {
    * サーバー初期化（PDF変換など）
    */
   async function initialize() {
+    // importディレクトリからの処理（新規 + 更新）
+    await pdfService.processImportDirectory();
+
+    // 従来の source.pdf 方式も引き続きサポート
     await pdfService.initializeImportedDecks();
   }
 

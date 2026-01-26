@@ -18,11 +18,21 @@ async function startServer() {
     console.log(`   Total slides: ${totalSlides}`);
     console.log(`   Timer: ${config.timer} seconds`);
 
+    if (totalSlides > 0) {
+      console.log(`\n📊 Default deck:`);
+      console.log(`   Slide:     http://localhost:${PORT}/slide/1`);
+      console.log(`   Presenter: http://localhost:${PORT}/presenter/1`);
+      console.log(`   Viewer:    http://localhost:${PORT}/viewer`);
+    }
+
     if (importedDecks.length > 0) {
       console.log(`\n📁 Imported decks:`);
       importedDecks.forEach(deck => {
         const count = services.deckService.getImportedSlideCount(deck);
-        console.log(`   - ${deck}: ${count} slides → http://localhost:${PORT}/deck/${deck}`);
+        console.log(`   - ${deck}: ${count} slides`);
+        console.log(`     Slide:     http://localhost:${PORT}/deck/${deck}`);
+        console.log(`     Presenter: http://localhost:${PORT}/deck/${deck}/presenter`);
+        console.log(`     Viewer:    http://localhost:${PORT}/deck/${deck}/viewer`);
       });
     }
 

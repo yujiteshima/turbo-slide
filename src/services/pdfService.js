@@ -242,10 +242,11 @@ export class PdfService {
 /**
  * ファクトリ関数
  * @param {string} decksDir - デッキのディレクトリパス
+ * @param {string} [importDir] - インポートディレクトリのパス
  * @returns {PdfService} PDFサービスインスタンス
  */
-export function createPdfService(decksDir) {
-  return new PdfService(decksDir);
+export function createPdfService(decksDir, importDir = null) {
+  return new PdfService(decksDir, importDir);
 }
 
 export default {

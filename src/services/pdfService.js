@@ -10,9 +10,11 @@ import path from "path";
 export class PdfService {
   /**
    * @param {string} decksDir - デッキのディレクトリパス (slides/decks)
+   * @param {string} [importDir] - インポートディレクトリのパス (slides/import)
    */
-  constructor(decksDir) {
+  constructor(decksDir, importDir = null) {
     this.decksDir = path.resolve(decksDir);
+    this.importDir = importDir ? path.resolve(importDir) : null;
   }
 
   /**
@@ -112,8 +114,10 @@ export class PdfService {
    * deck.jsonのslideCountを更新
    * @param {string} deckDir - デッキディレクトリのパス
    * @param {number} slideCount - スライド数
+   * @param {Object} [userConfig={}] - ユーザー設定（import/XXX.jsonの内容）
+   * @param {string} [deckName] - デッキ名
    */
-  async updateDeckMetadata(deckDir, slideCount) {
+  async updateDeckMetadata(deckDir, slideCount, userConfig = {}, deckName = null) {
     const metadataPath = path.join(deckDir, "deck.json");
     let metadata = {};
 
@@ -125,8 +129,17 @@ export class PdfService {
       }
     }
 
+    // ユーザー設定をマージ（slideCount, type, convertedAtは上書きしない）
+    const { slideCount: _, type: __, convertedAt: ___, ...safeUserConfig } = userConfig;
+    metadata = { ...metadata, ...safeUserConfig };
+
+    // 自動設定フィールド
+    if (deckName) {
+      metadata.name = deckName;
+    }
     metadata.slideCount = slideCount;
     metadata.type = "pdf";
+    metadata.convertedAt = new Date().toISOString();
 
     await fsPromises.writeFile(metadataPath, JSON.stringify(metadata, null, 2));
   }
@@ -155,15 +168,85 @@ export class PdfService {
       return { deckName: name, error: error.message, success: false };
     }
   }
+
+  /**
+   * インポートディレクトリを処理
+   * slides/import/ 内のPDFを検出し、slides/decks/ にデッキを生成
+   * @returns {Promise<Object[]>} インポート結果の配列
+   */
+  async processImportDirectory() {
+    const results = [];
+
+    if (!this.importDir || !fs.existsSync(this.importDir)) {
+      return results;
+    }
+
+    // PDFファイルを検索
+    const files = fs.readdirSync(this.importDir);
+    const pdfFiles = files.filter(f => f.toLowerCase().endsWith(".pdf"));
+
+    for (const pdfFile of pdfFiles) {
+      const deckName = path.basename(pdfFile, ".pdf");
+      const pdfPath = path.join(this.importDir, pdfFile);
+      const outputDir = path.join(this.decksDir, deckName);
+
+      // 同名のJSONファイルがあれば設定を読み込み
+      const configPath = path.join(this.importDir, `${deckName}.json`);
+      let userConfig = {};
+      if (fs.existsSync(configPath)) {
+        try {
+          userConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+        } catch (error) {
+          console.warn(`   ⚠️  Failed to parse ${deckName}.json:`, error.message);
+        }
+      }
+
+      // 更新が必要か確認
+      if (!this.needsReconvert(pdfPath, outputDir)) {
+        results.push({ deckName, skipped: true, success: true });
+        continue;
+      }
+
+      console.log(`📄 Importing ${pdfFile} from import directory...`);
+
+      try {
+        // 既存のPNG画像を削除（git検出のため）
+        if (fs.existsSync(outputDir)) {
+          const existingFiles = fs.readdirSync(outputDir);
+          for (const file of existingFiles) {
+            if (file.match(/^slide-\d+\.png$/i)) {
+              await fsPromises.unlink(path.join(outputDir, file));
+            }
+          }
+        }
+
+        // ディレクトリを作成してPNGを生成
+        await fsPromises.mkdir(outputDir, { recursive: true });
+        const slideCount = await this.convertPdfToImages(pdfPath, outputDir);
+        console.log(`   ✅ Created ${slideCount} slides in ${deckName}/`);
+
+        // deck.jsonを生成（ユーザー設定をマージ）
+        await this.updateDeckMetadata(outputDir, slideCount, userConfig, deckName);
+
+        results.push({ deckName, slideCount, success: true });
+      } catch (error) {
+        console.error(`   ❌ Failed to import ${pdfFile}:`, error.message);
+        results.push({ deckName, error: error.message, success: false });
+      }
+    }
+
+    return results;
+  }
 }
 
 /**
  * ファクトリ関数
  * @param {string} decksDir - デッキのディレクトリパス
+ * @param {string} [importDir] - インポートディレクトリのパス
  * @returns {PdfService} PDFサービスインスタンス
  */
-export function createPdfService(decksDir) {
-  return new PdfService(decksDir);
+export function createPdfService(decksDir, importDir = null) {
+  return new PdfService(decksDir, importDir);
 }
 
 export default {
